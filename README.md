@@ -1,62 +1,67 @@
-# Astro Starter Kit: Blog
+# Sol-momma's Portfolio & Blog
 
-```sh
-npm create astro@latest -- --template blog
-```
+Personal website built with Astro, Tailwind CSS v4, and MDX.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Tech Stack
 
-Features:
+- [Astro](https://astro.build/) v6
+- [Tailwind CSS](https://tailwindcss.com/) v4
+- MDX
+- TypeScript
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+src/
+├── components/       # Reusable UI components
+│   └── icons/        # SVG icon components
+├── content/
+│   ├── blog/         # Blog posts (Markdown/MDX)
+│   └── experience/   # Experience entries (timeline)
+├── layouts/          # Page layouts (Base, BlogPost)
+├── pages/            # File-based routing
+│   ├── index.astro   # Profile page
+│   ├── about.astro   # About + Experience timeline
+│   └── blog/         # Blog listing & posts
+└── styles/           # Global CSS + Tailwind theme
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Command        | Action                              |
+| :------------- | :---------------------------------- |
+| `pnpm dev`     | Start dev server at `localhost:4321`|
+| `pnpm build`   | Build production site to `./dist/` |
+| `pnpm preview` | Preview build locally              |
+| `pnpm format`  | Format code with Prettier          |
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Adding Content
 
-Any static assets, like images, can be placed in the `public/` directory.
+### Blog Post
 
-## 🧞 Commands
+Add a `.md` or `.mdx` file to `src/content/blog/`:
 
-All commands are run from the root of the project, from a terminal:
+```markdown
+---
+title: "Post Title"
+description: "Description"
+pubDate: "2026-03-27"
+---
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Content here.
+```
 
-## 👀 Want to learn more?
+### Experience Entry
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Add a `.md` file to `src/content/experience/`:
 
-## Credit
+```markdown
+---
+name: "Company Name"
+role: "Role"
+period: "2025/04 - present"
+order: 5
+---
+```
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+The timeline on the About page will automatically update.
