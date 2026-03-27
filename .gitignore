@@ -1,0 +1,20 @@
+# ビルド出力
+dist/
+
+# Astroキャッシュ
+.astro/
+
+# 依存関係
+node_modules/
+
+# OS
+.DS_Store
+
+# 環境変数
+.env
+.env.*
+
+# エディタ
+.vscode/
+.idea/
+*.swp
