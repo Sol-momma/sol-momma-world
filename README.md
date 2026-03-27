@@ -1,4 +1,6 @@
-# sol-momma-world
+# Sol-momma's World
+
+Hello, World👋
 
 Personal website built with Astro, Tailwind CSS v4, and MDX.
 
