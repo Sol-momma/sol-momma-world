@@ -1,7 +1,6 @@
 ---
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
-import Mastodon from "./icons/Mastodon.astro";
 import Twitter from "./icons/Twitter.astro";
 
 interface Props {
@@ -33,21 +32,12 @@ const { size = 32, class: className, linkClass } = Astro.props;
     <LinkedIn size={size} />
   </a>
   <a
-    href="https://twitter.com/astrodotbuild"
+    href="https://x.com/so_momma0608"
     target="_blank"
     rel="noopener noreferrer"
     class={linkClass}
   >
     <span class="sr-only">X (Twitter)</span>
     <Twitter size={size} />
-  </a>
-  <a
-    href="https://m.webtoo.ls/@astro"
-    target="_blank"
-    rel="me noopener noreferrer"
-    class={linkClass}
-  >
-    <span class="sr-only">Mastodon</span>
-    <Mastodon size={size} />
   </a>
 </div>
