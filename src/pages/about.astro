@@ -1,102 +1,45 @@
 ---
+import { getCollection } from "astro:content";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import TimelineItem from "../components/TimelineItem.astro";
 import Base from "../layouts/Base.astro";
 
-const experiences = [
-  {
-    name: "Tokyo University",
-    role: "Bachelor - Computer Science",
-    period: "2021/04 - present",
-    side: "left",
-  },
-  {
-    name: "TechCorp",
-    role: "Long term Internship",
-    period: "2023/06 - present",
-    side: "right",
-  },
-  {
-    name: "StartupX",
-    role: "Internship",
-    period: "2023/08 - 2023/10 (2months)",
-    side: "left",
-  },
-  {
-    name: "CyberAgent",
-    role: "Summer Internship",
-    period: "2024/08 (3weeks)",
-    side: "right",
-  },
-  {
-    name: "LINE",
-    role: "Hackathon - 1st Place",
-    period: "2024/11 (3days)",
-    side: "left",
-  },
-  {
-    name: "DeNA",
-    role: "Winter Internship",
-    period: "2025/02 (2weeks)",
-    side: "right",
-  },
-];
+const experiences = (await getCollection("experience")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
 <Base title="About Me" description="About Sol-momma">
   <Header />
   <main class="mx-auto max-w-[800px] px-6 py-16 max-sm:px-4 max-sm:py-8">
-    <!-- Intro -->
     <section class="mb-16">
       <h1 class="mb-4 text-4xl font-bold max-sm:text-2xl">About</h1>
       <p class="text-gray leading-relaxed">
-        Software Engineer. Web / Backend / Infrastructure に興味があります。
-        日々学んだことをブログにアウトプットしています。
+        Computer Science student specializing in full-stack development and AI
+        systems, experienced in building scalable SaaS platforms and
+        cloud-native applications.
       </p>
     </section>
 
-    <!-- Experience -->
     <section>
       <h2 class="mb-2 text-2xl font-bold">Experience</h2>
       <hr class="border-gray-light mb-12" />
 
       <div class="relative">
-        <!-- Vertical line -->
         <div
           class="bg-gray-dark absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2"
         >
         </div>
 
         {
-          experiences.map((exp) => (
-            <div class="relative mb-16 flex items-center last:mb-0">
-              {/* Dot */}
-              <div class="border-gray-dark absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] bg-white" />
-
-              {/* Horizontal branch */}
-              <div
-                class="bg-gray-dark absolute top-1/2 h-[3px] -translate-y-1/2"
-                style={
-                  exp.side === "left"
-                    ? "right: 50%; width: calc(50% - 60px); margin-right: 8px;"
-                    : "left: 50%; width: calc(50% - 60px); margin-left: 8px;"
-                }
-              />
-
-              {/* Card */}
-              <div
-                class:list={[
-                  "border-gray-light relative w-[calc(50%-60px)] rounded-xl border bg-white p-5 shadow-sm",
-                  exp.side === "left" ? "mr-auto" : "ml-auto",
-                ]}
-              >
-                <h3 class="mb-1 text-lg font-bold text-black">{exp.name}</h3>
-                <p class="text-gray-dark mb-1 text-sm font-semibold">
-                  {exp.role}
-                </p>
-                <p class="text-gray m-0 text-sm">{exp.period}</p>
-              </div>
-            </div>
+          experiences.map((exp, i) => (
+            <TimelineItem
+              name={exp.data.name}
+              role={exp.data.role}
+              period={exp.data.period}
+              side={i % 2 === 0 ? "left" : "right"}
+            />
           ))
         }
       </div>

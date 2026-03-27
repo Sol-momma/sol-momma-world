@@ -2,6 +2,16 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+const experience = defineCollection({
+  loader: glob({ base: "./src/content/experience", pattern: "**/*.md" }),
+  schema: z.object({
+    name: z.string(),
+    role: z.string(),
+    period: z.string(),
+    order: z.number(),
+  }),
+});
+
 const blog = defineCollection({
   // Load Markdown and MDX files in the `src/content/blog/` directory.
   loader: glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}" }),
@@ -17,4 +27,4 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+export const collections = { blog, experience };
