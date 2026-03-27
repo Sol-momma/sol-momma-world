@@ -1,25 +1,16 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+
+const linkClass =
+  "border-b-4 border-transparent px-2 py-4 text-black no-underline";
 ---
 
-<header class="m-0 bg-transparent px-4">
+<header class="bg-transparent px-4">
   <nav class="flex items-center justify-end">
     <div>
-      <HeaderLink
-        href="/"
-        class="border-b-4 border-transparent px-2 py-4 text-black no-underline"
-        >Home</HeaderLink
-      >
-      <HeaderLink
-        href="/blog"
-        class="border-b-4 border-transparent px-2 py-4 text-black no-underline"
-        >Blog</HeaderLink
-      >
-      <HeaderLink
-        href="/about"
-        class="border-b-4 border-transparent px-2 py-4 text-black no-underline"
-        >About</HeaderLink
-      >
+      <HeaderLink href="/" class={linkClass}>Home</HeaderLink>
+      <HeaderLink href="/blog" class={linkClass}>Blog</HeaderLink>
+      <HeaderLink href="/about" class={linkClass}>About</HeaderLink>
     </div>
   </nav>
 </header>

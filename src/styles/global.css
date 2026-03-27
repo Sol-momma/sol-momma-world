@@ -27,7 +27,7 @@
 
 @layer base {
   body {
-    font-family: "Atkinson", sans-serif;
+    font-family: var(--font-atkinson);
     margin: 0;
     padding: 0;
     text-align: left;
