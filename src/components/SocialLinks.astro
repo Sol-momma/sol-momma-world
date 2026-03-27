@@ -1,0 +1,53 @@
+---
+import GitHub from "./icons/GitHub.astro";
+import LinkedIn from "./icons/LinkedIn.astro";
+import Mastodon from "./icons/Mastodon.astro";
+import Twitter from "./icons/Twitter.astro";
+
+interface Props {
+  size?: number;
+  class?: string;
+  linkClass?: string;
+}
+
+const { size = 32, class: className, linkClass } = Astro.props;
+---
+
+<div class={className}>
+  <a
+    href="https://github.com/Sol-momma"
+    target="_blank"
+    rel="noopener noreferrer"
+    class={linkClass}
+  >
+    <span class="sr-only">GitHub</span>
+    <GitHub size={size} />
+  </a>
+  <a
+    href="https://www.linkedin.com/in/so-momma"
+    target="_blank"
+    rel="noopener noreferrer"
+    class={linkClass}
+  >
+    <span class="sr-only">LinkedIn</span>
+    <LinkedIn size={size} />
+  </a>
+  <a
+    href="https://twitter.com/astrodotbuild"
+    target="_blank"
+    rel="noopener noreferrer"
+    class={linkClass}
+  >
+    <span class="sr-only">X (Twitter)</span>
+    <Twitter size={size} />
+  </a>
+  <a
+    href="https://m.webtoo.ls/@astro"
+    target="_blank"
+    rel="me noopener noreferrer"
+    class={linkClass}
+  >
+    <span class="sr-only">Mastodon</span>
+    <Mastodon size={size} />
+  </a>
+</div>
