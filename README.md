@@ -1,4 +1,4 @@
-# Sol-momma's Portfolio & Blog
+# sol-momma-world
 
 Personal website built with Astro, Tailwind CSS v4, and MDX.
 
