@@ -1,5 +1,7 @@
 # Sol-momma's World
 
+https://abehiroshi.la.coocan.jp/
+
 Personal portfolio website with a warm editorial aesthetic inspired by [The Browser Company](https://thebrowser.company/), featuring Apple Liquid Glass UI effects and smooth animations.
 
 **Live:** [sol-momma.com](https://sol-momma.com)
@@ -51,12 +53,12 @@ pnpm install
 pnpm dev
 ```
 
-| Command        | Action                              |
-| :------------- | :---------------------------------- |
-| `pnpm dev`     | Start dev server at `localhost:4321`|
-| `pnpm build`   | Build production site to `./dist/` |
-| `pnpm preview` | Preview build locally              |
-| `pnpm format`  | Format code with Prettier          |
+| Command        | Action                               |
+| :------------- | :----------------------------------- |
+| `pnpm dev`     | Start dev server at `localhost:4321` |
+| `pnpm build`   | Build production site to `./dist/`   |
+| `pnpm preview` | Preview build locally                |
+| `pnpm format`  | Format code with Prettier            |
 
 ## Project Structure
 

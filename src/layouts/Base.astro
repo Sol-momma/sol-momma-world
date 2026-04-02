@@ -114,73 +114,74 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
         // Cursor trail
         if (window.matchMedia("(pointer: fine)").matches) {
           var canvas = document.getElementById("cursor-trail");
-          if (!canvas) return;
-          var ctx = canvas.getContext("2d");
-          var w = canvas.width = window.innerWidth;
-          var h = canvas.height = window.innerHeight;
-          var cursorMoved = false;
-          var mx = w / 2, my = h / 2, prevMx = mx, prevMy = my;
-          var MAX_DOTS = 150;
-          var dots = [];
+          if (canvas) {
+            var ctx = canvas.getContext("2d");
+            var w = canvas.width = window.innerWidth;
+            var h = canvas.height = window.innerHeight;
+            var cursorMoved = false;
+            var mx = w / 2, my = h / 2, prevMx = mx, prevMy = my;
+            var MAX_DOTS = 150;
+            var dots = [];
 
-          window.addEventListener("resize", function () {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-          });
+            window.addEventListener("resize", function () {
+              w = canvas.width = window.innerWidth;
+              h = canvas.height = window.innerHeight;
+            });
 
-          document.addEventListener("mousemove", function (e) {
-            mx = e.clientX;
-            my = e.clientY;
-            cursorMoved = true;
-          });
+            document.addEventListener("mousemove", function (e) {
+              mx = e.clientX;
+              my = e.clientY;
+              cursorMoved = true;
+            });
 
-          function spawn() {
-            var speed = Math.hypot(mx - prevMx, my - prevMy);
-            var count = Math.min(Math.floor(speed * 0.3), 5);
-            for (var i = 0; i < count && dots.length < MAX_DOTS; i++) {
-              var t = Math.random();
-              dots.push({
-                x: prevMx + (mx - prevMx) * t,
-                y: prevMy + (my - prevMy) * t,
-                vx: (Math.random() - 0.5) * 1.2,
-                vy: (Math.random() - 0.5) * 1.2,
-                life: 1,
-                maxLife: 40 + Math.random() * 30,
-                size: 2 + Math.random() * 3.5,
-                hue: 210 + Math.random() * 40,
-              });
-            }
-            prevMx = mx;
-            prevMy = my;
-          }
-
-          function tick() {
-            ctx.clearRect(0, 0, w, h);
-            if (cursorMoved) {
-              spawn();
-              cursorMoved = false;
-            }
-            for (var i = dots.length - 1; i >= 0; i--) {
-              var d = dots[i];
-              d.x += d.vx;
-              d.y += d.vy;
-              d.vx *= 0.98;
-              d.vy *= 0.98;
-              d.life -= 1 / d.maxLife;
-              if (d.life <= 0) {
-                dots[i] = dots[dots.length - 1];
-                dots.pop();
-                continue;
+            function spawn() {
+              var speed = Math.hypot(mx - prevMx, my - prevMy);
+              var count = Math.min(Math.floor(speed * 0.3), 5);
+              for (var i = 0; i < count && dots.length < MAX_DOTS; i++) {
+                var t = Math.random();
+                dots.push({
+                  x: prevMx + (mx - prevMx) * t,
+                  y: prevMy + (my - prevMy) * t,
+                  vx: (Math.random() - 0.5) * 1.2,
+                  vy: (Math.random() - 0.5) * 1.2,
+                  life: 1,
+                  maxLife: 40 + Math.random() * 30,
+                  size: 2 + Math.random() * 3.5,
+                  hue: 210 + Math.random() * 40,
+                });
               }
-              ctx.beginPath();
-              ctx.arc(d.x, d.y, d.size * d.life, 0, Math.PI * 2);
-              ctx.fillStyle = "hsla(" + d.hue + ", 70%, 60%, " + (d.life * 0.7) + ")";
-              ctx.fill();
+              prevMx = mx;
+              prevMy = my;
             }
+
+            function tick() {
+              ctx.clearRect(0, 0, w, h);
+              if (cursorMoved) {
+                spawn();
+                cursorMoved = false;
+              }
+              for (var i = dots.length - 1; i >= 0; i--) {
+                var d = dots[i];
+                d.x += d.vx;
+                d.y += d.vy;
+                d.vx *= 0.98;
+                d.vy *= 0.98;
+                d.life -= 1 / d.maxLife;
+                if (d.life <= 0) {
+                  dots[i] = dots[dots.length - 1];
+                  dots.pop();
+                  continue;
+                }
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, d.size * d.life, 0, Math.PI * 2);
+                ctx.fillStyle = "hsla(" + d.hue + ", 70%, 60%, " + (d.life * 0.7) + ")";
+                ctx.fill();
+              }
+              requestAnimationFrame(tick);
+            }
+
             requestAnimationFrame(tick);
           }
-
-          requestAnimationFrame(tick);
         }
       })();
     </script>
