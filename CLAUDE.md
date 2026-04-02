@@ -11,38 +11,66 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-Astro v6 の個人ポートフォリオ＋ブログサイト。Tailwind CSS v4（Viteプラグイン経由）、MDX、TypeScript strict mode。
+Astro v6 の個人ポートフォリオ＋ブログサイト。Tailwind CSS v4（Viteプラグイン経由）、MDX、TypeScript strict mode。Browser Company風のウォームベージュ + Apple Liquid Glass デザイン。
 
 ### Content Collections
 
 `src/content.config.ts` で2つのコレクションを定義:
 
-- **blog** (`src/content/blog/`): Markdown/MDX。スキーマ: title, description, pubDate, updatedDate?, heroImage?
-- **experience** (`src/content/experience/`): Markdown。スキーマ: name, role, period, order。aboutページのgitグラフ風タイムラインに使用。orderで並び順、左右は自動交互配置
+- **blog** (`src/content/blog/`): Markdown/MDX。スキーマ: title, description, pubDate, updatedDate?, heroImage?。現在ヘッダーからはコメントアウトで非表示
+- **experience** (`src/content/experience/`): Markdown。スキーマ: name, role, period, order。aboutページのタイムラインに使用。orderで並び順、左右は自動交互配置
 
 ファイルを追加するだけで自動的にページ/タイムラインに反映される。
 
 ### レイアウト構成
 
-- `layouts/Base.astro` — 全ページ共通の `<html>`/`<head>`/`<body>` ラッパー。title/descriptionをpropsで受け取る
+- `layouts/Base.astro` — 全ページ共通ラッパー。スクロールプログレスバー、カーソルトレイル（青いドット）、Back to topボタン、IntersectionObserver（`.scroll-animate`用）を含む。全スクリプトは `is:inline` で即時実行
 - `layouts/BlogPost.astro` — ブログ記事用。Base.astroを内部で使用
-- トップページ (`pages/index.astro`) は独自レイアウト（プロフィールページ）
+- トップページ (`pages/index.astro`) — プロフィールページ。3Dチルトアバター、タイプライター、名前の波アニメーション
+
+### テーマシステム（ライト/ダークモード）
+
+- `data-theme` 属性を `<html>` に設定して切り替え
+- `BaseHead.astro` の `is:inline` スクリプトでフラッシュ防止（DOM構築前にテーマ適用）
+- `ThemeToggle.astro` で月/太陽アイコンの切り替え UI。localStorage に保存
+- CSS変数は `--t-*` プレフィックスで定義し、`@theme` ブロックで `--color-*` にマッピング
+- ガラストークン: `--glass-bg`, `--glass-border`, `--glass-shadow`, `--glass-highlight` をライト/ダーク両方で定義
+
+### Liquid Glass デザインパターン
+
+`global.css` に `.glass` ユーティリティクラスを定義（`backdrop-filter: blur(16px) saturate(180%)` + 半透明ボーダー + 内側ハイライト）。以下のコンポーネントで使用:
+
+- ナビバー（Header.astro の `.nav-bar`）
+- Resume ボタン（`.resume-btn`）
+- Back to top ボタン（`class="glass"`）
+- タイムラインカード（`.timeline-card` — 独自の `--timeline-card-bg` で不透明度が高い）
+- テックスタックピル、プロフィールグリッド、コンタクトカード（about.astro 内のスコープCSS）
+
+新しいガラス要素を追加する場合は `.glass` クラスを使うか、`--glass-*` トークンを参照する。
 
 ### 共通コンポーネント設計
 
-- `SocialLinks.astro` — ソーシャルリンク一式。class/linkClass/size propsでスタイル制御。Header, Footer, index.astro の3箇所で使用
-- `icons/*.astro` — GitHub, Twitter, LinkedIn, Mastodon の再利用可能SVGアイコン（size props対応）
+- `SocialLinks.astro` — ソーシャルリンク。URLは `consts.ts` の `SOCIAL_LINKS` を参照
+- `icons/*.astro` — GitHub, Twitter, LinkedIn の再利用可能SVGアイコン（size props対応）
 - `TimelineItem.astro` — Experience タイムラインの1エントリ（name, role, period, side props）
+- `ThemeToggle.astro` — ライト/ダーク切り替えボタン。月の浮遊アニメーション、太陽の回転、切り替え時のポップアニメーション付き
+- `Footer.astro` — 現在は空のスペーサー要素のみ
 
 ### スタイル
 
-- `src/styles/global.css`: `@import "tailwindcss"` + `@theme` でカスタムカラー（accent, black, gray, gray-light, gray-dark）とフォント（Atkinson）を定義。`@layer base` でベーススタイル
-- 各コンポーネントは `<style>` ブロックではなくTailwindユーティリティクラスを使用
+- `src/styles/global.css`: `@import "tailwindcss"` + `@theme` でCSS変数定義。ライト/ダーク両テーマ、アニメーション、Liquid Glassユーティリティ、コンポーネントスタイルを一括管理
+- フォント: Atkinson Hyperlegible（sans-serif UI用）、Georgia（見出し serif イタリック用）
+- アニメーション: `.animate-fade-in-up`, `.animate-scale-in` 等のロード時、`.scroll-animate` + IntersectionObserver のスクロール時
 
 ### サイト定数
 
-- `src/consts.ts` で SITE_TITLE, SITE_DESCRIPTION を管理
-- `astro.config.mjs` の `site` はデプロイ時にURLを変更する必要あり（現在 example.com）
+- `src/consts.ts` で SITE_TITLE, SITE_DESCRIPTION, SOCIAL_LINKS を管理
+- `astro.config.mjs` の `site` は `https://Sol-momma.com`
+
+### View Transitions
+
+- `BaseHead.astro` で `ClientRouter`（Astro v6）を使用。ページ間遷移がスムーズにフェード
+- Base.astro のスクリプトは `is:inline` で実装（`astro:page-load` イベントのタイミング問題を回避）
 
 ## Tech Stack
 
