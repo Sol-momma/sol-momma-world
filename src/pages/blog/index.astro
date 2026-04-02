@@ -19,23 +19,24 @@ const posts = (await getCollection("blog")).sort(
           posts.map((post, i) => (
             <li
               class:list={[
-                "w-[calc(50%-1rem)] max-sm:w-full max-sm:text-center",
+                "scroll-animate fade-up w-[calc(50%-1rem)] max-sm:w-full max-sm:text-center",
                 { "mb-4 w-full text-center max-sm:mb-0": i === 0 },
               ]}
+              style={`animation-delay: ${i * 0.1}s`}
             >
               <a
                 href={`/blog/${post.id}/`}
-                class="group block no-underline transition-all duration-200"
+                class="blog-card group block no-underline"
               >
                 <h4
                   class:list={[
-                    "group-hover:text-accent m-0 leading-none text-black",
-                    { "text-4xl max-sm:text-2xl": i === 0 },
+                    "m-0 leading-snug text-black transition-opacity duration-300 group-hover:opacity-60",
+                    { "text-3xl max-sm:text-xl": i === 0 },
                   ]}
                 >
                   {post.data.title}
                 </h4>
-                <p class="text-gray group-hover:text-accent m-0">
+                <p class="text-gray m-0 mt-1 text-sm tracking-wide transition-opacity duration-300 group-hover:opacity-60">
                   <FormattedDate date={post.data.pubDate} />
                 </p>
               </a>

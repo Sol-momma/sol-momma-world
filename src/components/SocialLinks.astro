@@ -2,6 +2,7 @@
 import GitHub from "./icons/GitHub.astro";
 import LinkedIn from "./icons/LinkedIn.astro";
 import Twitter from "./icons/Twitter.astro";
+import { SOCIAL_LINKS } from "../consts";
 
 interface Props {
   size?: number;
@@ -13,30 +14,15 @@ const { size = 32, class: className, linkClass } = Astro.props;
 ---
 
 <div class={className}>
-  <a
-    href="https://github.com/Sol-momma"
-    target="_blank"
-    rel="noopener noreferrer"
-    class={linkClass}
-  >
+  <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class={linkClass}>
     <span class="sr-only">GitHub</span>
     <GitHub size={size} />
   </a>
-  <a
-    href="https://www.linkedin.com/in/so-momma"
-    target="_blank"
-    rel="noopener noreferrer"
-    class={linkClass}
-  >
+  <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class={linkClass}>
     <span class="sr-only">LinkedIn</span>
     <LinkedIn size={size} />
   </a>
-  <a
-    href="https://x.com/so_momma0608"
-    target="_blank"
-    rel="noopener noreferrer"
-    class={linkClass}
-  >
+  <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class={linkClass}>
     <span class="sr-only">X (Twitter)</span>
     <Twitter size={size} />
   </a>

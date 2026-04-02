@@ -9,14 +9,14 @@ interface Props {
 const { name, role, period, side } = Astro.props;
 ---
 
-<div class="relative mb-16 flex items-center last:mb-0">
+<div class:list={["scroll-animate relative mb-16 flex items-center last:mb-0", side === "left" ? "slide-left" : "slide-right"]}>
   <div
-    class="border-gray-dark absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] bg-white"
+    class="border-gray-dark absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] bg-cream"
   >
   </div>
 
   <div
-    class="bg-gray-dark absolute top-1/2 h-[3px] -translate-y-1/2"
+    class="bg-gray-dark absolute top-1/2 h-[2px] -translate-y-1/2"
     style={side === "left"
       ? "right: 50%; width: calc(50% - 60px); margin-right: 8px;"
       : "left: 50%; width: calc(50% - 60px); margin-left: 8px;"}
@@ -25,12 +25,12 @@ const { name, role, period, side } = Astro.props;
 
   <div
     class:list={[
-      "border-gray-light relative w-[calc(50%-60px)] rounded-xl border bg-white p-5 shadow-sm",
+      "timeline-card relative z-20 w-[calc(50%-60px)] rounded-2xl p-5",
       side === "left" ? "mr-auto" : "ml-auto",
     ]}
   >
-    <h3 class="mb-1 text-lg font-bold text-black">{name}</h3>
-    <p class="text-gray-dark mb-1 text-sm font-semibold">{role}</p>
-    <p class="text-gray m-0 text-sm">{period}</p>
+    <h3 class="mb-1 text-base font-bold text-black">{name}</h3>
+    <p class="text-gray-dark mb-1 text-sm">{role}</p>
+    <p class="text-gray m-0 text-xs tracking-wide">{period}</p>
   </div>
 </div>

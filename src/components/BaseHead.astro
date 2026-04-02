@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { SITE_TITLE } from "../consts";
 import "../styles/global.css";
 
@@ -12,8 +13,18 @@ const { title, description } = Astro.props;
 ---
 
 <meta charset="utf-8" />
+<meta name="color-scheme" content="light dark" />
+<script is:inline>
+  (function () {
+    const t = localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", t);
+  })();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" href="/avatar.jpg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
   rel="alternate"
@@ -53,3 +64,5 @@ const { title, description } = Astro.props;
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
+
+<ClientRouter />

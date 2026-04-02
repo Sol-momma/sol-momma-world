@@ -2,29 +2,170 @@
 import Header from "../components/Header.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Base from "../layouts/Base.astro";
+
+const name = "Sol-momma";
 ---
 
 <Base>
   <Header />
   <main
-    class="flex min-h-[calc(100vh-60px)] flex-col items-center justify-center px-6"
+    class="flex min-h-[calc(100vh-100px)] flex-col items-center justify-center px-6"
   >
     <div
-      class="mb-8 h-56 w-56 overflow-hidden rounded-full max-sm:h-40 max-sm:w-40"
+      id="avatar-tilt"
+      class="animate-scale-in mb-10 [perspective:800px]"
     >
-      <img
-        src="/avatar.jpg"
-        alt="Sol-momma"
-        class="h-full w-full object-cover"
-      />
+      <div id="avatar-inner" class="glass-card">
+        <div class="glass-image">
+          <img src="/avatar.jpg" alt="Sol-momma" />
+        </div>
+      </div>
     </div>
 
-    <h1 class="mb-1 text-4xl font-bold max-sm:text-2xl">@Sol-momma</h1>
-    <p class="text-gray mb-8 text-lg">Software Engineer</p>
+    <h1 class="name-wave animate-fade-in-up mb-2 delay-2 max-sm:text-2xl">
+      {
+        name.split("").map((char, i) => (
+          <span class="wave-char" style={`--i: ${i}`}>
+            {char}
+          </span>
+        ))
+      }
+    </h1>
+    <p
+      class="animate-fade-in-up text-gray mb-10 text-base tracking-wide delay-3"
+    >
+      <span id="typewriter" class="typewriter"></span>
+    </p>
 
     <SocialLinks
-      class="flex items-center gap-5"
-      linkClass="text-gray transition-colors hover:text-black"
+      class="animate-fade-in-up flex items-center gap-6 delay-4"
+      linkClass="social-icon text-gray"
     />
   </main>
 </Base>
+
+<style is:global>
+  .glass-card {
+    position: relative;
+    width: 13rem;
+    height: 13rem;
+    border-radius: 9999px;
+    transition: transform 0.12s ease-out;
+    will-change: transform;
+    cursor: pointer;
+  }
+
+  .glass-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .glass-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .wave-char {
+    display: inline-block;
+    transition: transform 0.3s ease;
+  }
+
+  .name-wave:hover .wave-char {
+    animation: wave 0.5s ease calc(var(--i) * 0.04s) both;
+  }
+
+  @keyframes wave {
+    0% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-8px);
+    }
+    60% {
+      transform: translateY(2px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .glass-card {
+      width: 10rem;
+      height: 10rem;
+    }
+  }
+
+  /* Typewriter */
+  .typewriter::after {
+    content: "|";
+    animation: blink 0.8s step-end infinite;
+    margin-left: 1px;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .name-wave:hover .wave-char {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var container = document.getElementById("avatar-tilt");
+    var inner = document.getElementById("avatar-inner");
+    var el = document.getElementById("typewriter");
+    if (!container || !inner || !el) return;
+
+    var maxTilt = 18;
+
+    container.addEventListener("mousemove", function (e) {
+      var rect = container.getBoundingClientRect();
+      var dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+      var dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+      inner.style.transform = "rotateX(" + (-dy * maxTilt) + "deg) rotateY(" + (dx * maxTilt) + "deg) scale(1.04)";
+    });
+
+    container.addEventListener("mouseleave", function () {
+      inner.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+    });
+
+    var words = ["Software Engineer", "Full-stack Developer", "CS Student"];
+    var wordIdx = 0, charIdx = 0, deleting = false;
+
+    function type() {
+      var word = words[wordIdx];
+      if (!deleting) {
+        el.textContent = word.slice(0, ++charIdx);
+        if (charIdx === word.length) {
+          setTimeout(function () { deleting = true; type(); }, 2000);
+          return;
+        }
+        setTimeout(type, 80);
+      } else {
+        el.textContent = word.slice(0, --charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          wordIdx = (wordIdx + 1) % words.length;
+          setTimeout(type, 400);
+          return;
+        }
+        setTimeout(type, 40);
+      }
+    }
+    setTimeout(type, 800);
+  })();
+</script>

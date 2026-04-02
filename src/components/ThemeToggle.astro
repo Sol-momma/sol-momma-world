@@ -1,0 +1,172 @@
+---
+---
+
+<button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+  <div class="icon-wrap">
+    <svg class="theme-icon icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg class="theme-icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+  </div>
+  <span class="theme-label" id="theme-label"></span>
+</button>
+
+<style>
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--color-black);
+    transition: color 0.4s ease;
+  }
+
+  .theme-label {
+    font-family: var(--font-atkinson);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateX(0);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .theme-btn:hover .theme-label {
+    opacity: 1;
+    transform: translateX(-8px);
+  }
+
+  .icon-wrap {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .theme-icon {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* ===== Moon: float + rock ===== */
+  .icon-moon {
+    animation: moon-float 4s ease-in-out infinite;
+  }
+
+  @keyframes moon-float {
+    0%   { transform: translateY(0px) rotate(0deg); }
+    25%  { transform: translateY(-3px) rotate(-10deg); }
+    50%  { transform: translateY(0px) rotate(0deg); }
+    75%  { transform: translateY(1px) rotate(5deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  /* ===== Sun: slow spin ===== */
+  .icon-sun {
+    animation: sun-spin 20s linear infinite;
+  }
+
+  @keyframes sun-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ===== Hover icon animations ===== */
+  .theme-btn:hover .icon-moon {
+    animation: moon-hover 0.8s ease forwards;
+  }
+
+  .theme-btn:hover .icon-sun {
+    animation: sun-hover 0.6s ease;
+  }
+
+  @keyframes moon-hover {
+    0%   { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 0px currentColor); }
+    30%  { transform: rotate(-20deg) scale(1.25); filter: drop-shadow(0 0 6px currentColor); }
+    60%  { transform: rotate(10deg) scale(1.15); filter: drop-shadow(0 0 4px currentColor); }
+    100% { transform: rotate(-5deg) scale(1.2); filter: drop-shadow(0 0 5px currentColor); }
+  }
+
+  @keyframes sun-hover {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(45deg) scale(1.3); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+
+  /* ===== Click: pop + flip ===== */
+  .icon-wrap.switching {
+    animation: switch-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  }
+
+  @keyframes switch-pop {
+    0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+    25%  { transform: scale(0) rotate(-120deg); opacity: 0; }
+    50%  { transform: scale(0) rotate(120deg); opacity: 0; }
+    75%  { transform: scale(1.4) rotate(10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  /* ===== Show/hide icons ===== */
+  :global([data-theme="light"]) .icon-sun { display: none; }
+  :global([data-theme="light"]) .icon-moon { display: block; }
+  :global([data-theme="dark"]) .icon-sun { display: block; }
+  :global([data-theme="dark"]) .icon-moon { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon-moon, .icon-sun, .icon-wrap.switching {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var toggle = document.getElementById("theme-toggle");
+    var wrap = toggle.querySelector(".icon-wrap");
+    var label = document.getElementById("theme-label");
+
+    function getTheme() {
+      if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+        return localStorage.getItem("theme");
+      }
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+      label.textContent = theme === "light" ? "DARK" : "LIGHT";
+    }
+    setTheme(getTheme());
+
+    toggle.addEventListener("click", function () {
+      wrap.classList.remove("switching");
+      void wrap.offsetWidth;
+      wrap.classList.add("switching");
+
+      setTimeout(function () {
+        var current = document.documentElement.getAttribute("data-theme");
+        setTheme(current === "dark" ? "light" : "dark");
+      }, 125);
+    });
+
+    wrap.addEventListener("animationend", function (e) {
+      if (e.animationName === "switch-pop") {
+        wrap.classList.remove("switching");
+      }
+    });
+  })();
+</script>

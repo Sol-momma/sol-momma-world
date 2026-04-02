@@ -8,27 +8,106 @@ import Base from "../layouts/Base.astro";
 const experiences = (await getCollection("experience")).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+const profileData = [
+  { label: "FULL NAME", value: "So Momma" },
+  { label: "ALIAS", value: "Sol-momma" },
+  { label: "DATE OF BIRTH", value: "8 June 2004" },
+  { label: "AGE", value: "21 years old" },
+  { label: "LOCATION", value: "Taoyuan, Taiwan" },
+  { label: "LANGUAGES", value: "Japanese, English,Chinese(Traditional)" },
+  { label: "UNIVERSITY", value: "Yuan-Ze University" },
+  { label: "MAJOR", value: "International Bachelor Program in Informatics" },
+  { label: "FOCUS", value: "Full-stack Development & AI Systems" },
+  { label: "STATUS", value: "Open to opportunities", highlight: true },
+];
+
+const techStack = [
+  {
+    category: "FRONTEND",
+    skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Astro"],
+  },
+  {
+    category: "BACKEND",
+    skills: ["Node.js", "Python", "Go", "FastAPI", "PostgreSQL"],
+  },
+  // {
+  //   category: "CLOUD & DEVOPS",
+  //   skills: ["AWS", "Docker", "Kubernetes", "Terraform", "GitHub Actions"],
+  // },
+  {
+    category: "TOOLS & IDES",
+    skills: ["VS Code", "Cursor", "GitHub", "Figma"],
+  },
+];
 ---
 
 <Base title="About Me" description="About Sol-momma">
   <Header />
   <main class="mx-auto max-w-[800px] px-6 py-16 max-sm:px-4 max-sm:py-8">
-    <section class="mb-16">
-      <h1 class="mb-4 text-4xl font-bold max-sm:text-2xl">About</h1>
-      <p class="text-gray leading-relaxed">
+    <!-- About Section -->
+    <section class="mb-20">
+      <div class="section-header mb-8">
+        <span class="section-label">ABOUT</span>
+        <hr class="section-line" />
+      </div>
+
+      <p class="text-gray mb-8 leading-relaxed">
         Computer Science student specializing in full-stack development and AI
         systems, experienced in building scalable SaaS platforms and
         cloud-native applications.
       </p>
+
+      <div class="profile-grid">
+        {
+          profileData.map((item) => (
+            <div class="profile-cell scroll-animate fade-up">
+              <span class="profile-label">{item.label}</span>
+              <span
+                class:list={[
+                  "profile-value",
+                  { "profile-highlight": item.highlight },
+                ]}
+              >
+                {item.value}
+              </span>
+            </div>
+          ))
+        }
+      </div>
     </section>
 
+    <!-- Tech Stack Section -->
+    <section class="mb-20">
+      <div class="section-header mb-10">
+        <span class="section-label">TECH STACK</span>
+        <hr class="section-line" />
+      </div>
+
+      {
+        techStack.map((group) => (
+          <div class="mb-10 last:mb-0">
+            <span class="tech-category">{group.category}</span>
+            <div class="tech-pills">
+              {group.skills.map((skill) => (
+                <span class="tech-pill scroll-animate fade-up">{skill}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    <!-- Experience Section -->
     <section>
-      <h2 class="mb-2 text-2xl font-bold">Experience</h2>
-      <hr class="border-gray-light mb-12" />
+      <div class="section-header mb-10">
+        <span class="section-label">EXPERIENCE</span>
+        <hr class="section-line" />
+      </div>
 
       <div class="relative">
         <div
-          class="bg-gray-dark absolute top-0 left-1/2 h-full w-[3px] -translate-x-1/2"
+          class="animate-line-grow bg-gray-dark absolute top-0 left-1/2 h-full w-[2px] -translate-x-1/2"
         >
         </div>
 
@@ -44,6 +123,313 @@ const experiences = (await getCollection("experience")).sort(
         }
       </div>
     </section>
+
+    <!-- Contact Section -->
+    <section class="mb-20">
+      <div class="section-header mb-10">
+        <span class="section-label">CONTACT</span>
+        <hr class="section-line" />
+      </div>
+
+      <div class="contact-card scroll-animate fade-up">
+        <h2 class="contact-title">Let's connect.</h2>
+        <p class="text-gray mt-2 mb-6">
+          Feel free to reach out for collaborations, opportunities, or just to
+          say hello.
+        </p>
+        <div class="contact-links">
+          <a href="mailto:sol0608sol@gmail.com" class="contact-link">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path><polyline points="22,6 12,13 2,6"></polyline></svg
+            >
+            <span>sol0608sol@gmail.com</span>
+          </a>
+          <a
+            href="https://github.com/Sol-momma"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+              ></path></svg
+            >
+            <span>GitHub</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/so-momma"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              ></path><rect x="2" y="9" width="4" height="12"></rect><circle
+                cx="4"
+                cy="4"
+                r="2"></circle></svg
+            >
+            <span>LinkedIn</span>
+          </a>
+          <a
+            href="https://x.com/so_momma0608"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M4 4l11.733 16h4.267l-11.733 -16z"></path><path
+                d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path></svg
+            >
+            <span>X (Twitter)</span>
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </Base>
+
+<style>
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label {
+    font-family: var(--font-atkinson);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-black);
+    white-space: nowrap;
+  }
+
+  .section-line {
+    flex: 1;
+    border: none;
+    border-top: 1px solid var(--glass-border);
+    margin: 0;
+  }
+
+  /* Profile grid */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow:
+      0 4px 24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+  }
+
+  .profile-cell {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    transition: background 0.3s ease;
+  }
+
+  .profile-cell:nth-child(odd) {
+    border-right: 1px solid var(--glass-border);
+  }
+
+  .profile-cell:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .profile-cell:hover {
+    background: var(--glass-bg-hover);
+  }
+
+  .profile-label {
+    display: block;
+    font-family: var(--font-atkinson);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gray);
+    margin-bottom: 0.35rem;
+  }
+
+  .profile-value {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-black);
+    font-style: normal;
+  }
+
+  .profile-highlight {
+    color: rgb(80, 200, 120);
+  }
+
+  /* Tech stack */
+  .tech-category {
+    display: block;
+    font-family: var(--font-atkinson);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gray);
+    margin-bottom: 0.75rem;
+  }
+
+  .tech-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tech-pill {
+    font-family: var(--font-atkinson);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-black);
+    padding: 0.5rem 1.1rem;
+    border-radius: 9999px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 2px 8px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+    transition:
+      background 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .tech-pill:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 16px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+  }
+
+  /* Contact */
+  .contact-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.25rem;
+    padding: 2.5rem;
+    box-shadow:
+      0 4px 24px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+    text-align: center;
+  }
+
+  .contact-title {
+    font-size: 1.8em;
+    margin-bottom: 0;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-atkinson);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--color-black);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 2px 8px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+    transition:
+      background 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .contact-link:hover {
+    background: var(--glass-bg-hover);
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 16px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
+  }
+
+  @media (max-width: 640px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .profile-cell:nth-child(odd) {
+      border-right: none;
+    }
+
+    .profile-cell:last-child {
+      border-bottom: none;
+    }
+
+    .profile-cell:nth-last-child(2) {
+      border-bottom: 1px solid var(--glass-border);
+    }
+  }
+</style>
+
