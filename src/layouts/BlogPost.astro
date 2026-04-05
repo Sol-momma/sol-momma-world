@@ -11,7 +11,7 @@ type Props = CollectionEntry<"blog">["data"];
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} ogSlug={`blog/${Astro.params.slug}`}>
   <Header />
   <main class="mx-auto w-full max-w-[calc(100%-2em)]">
     <article>

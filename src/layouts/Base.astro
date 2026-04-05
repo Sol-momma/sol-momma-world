@@ -5,15 +5,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 interface Props {
   title?: string;
   description?: string;
+  ogSlug?: string;
 }
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const { title = SITE_TITLE, description = SITE_DESCRIPTION, ogSlug = "index" } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title} description={description} ogSlug={ogSlug} />
   </head>
   <body>
     <div id="scroll-progress" class="scroll-progress"></div>
