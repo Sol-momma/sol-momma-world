@@ -10,7 +10,7 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://Sol-momma.com",
+  site: "https://sol-momma-world.sol0608sol.workers.dev",
   integrations: [mdx(), sitemap()],
 
   vite: {

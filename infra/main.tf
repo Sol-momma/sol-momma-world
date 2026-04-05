@@ -13,34 +13,5 @@ provider "cloudflare" {
   api_token = var.cloudflare_api_token
 }
 
-# Cloudflare Pages プロジェクト
-resource "cloudflare_pages_project" "site" {
-  account_id        = var.cloudflare_account_id
-  name              = var.project_name
-  production_branch = "main"
-
-  build_config = {
-    build_command   = "pnpm build"
-    destination_dir = "dist"
-  }
-
-  deployment_configs = {
-    production = {
-      environment_variables = {
-        NODE_VERSION = "22"
-      }
-    }
-    preview = {
-      environment_variables = {
-        NODE_VERSION = "22"
-      }
-    }
-  }
-}
-
-# カスタムドメイン
-resource "cloudflare_pages_domain" "custom_domain" {
-  account_id   = var.cloudflare_account_id
-  project_name = cloudflare_pages_project.site.name
-  name         = var.custom_domain
-}
+# Workers の静的サイト配信設定は wrangler.jsonc で管理
+# カスタムドメイン取得時にここに DNS 設定を追加

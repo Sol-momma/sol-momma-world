@@ -10,13 +10,7 @@ variable "cloudflare_account_id" {
 }
 
 variable "project_name" {
-  description = "Cloudflare Pages project name"
+  description = "Cloudflare Workers project name"
   type        = string
   default     = "sol-momma-world"
-}
-
-variable "custom_domain" {
-  description = "Custom domain for the site"
-  type        = string
-  default     = "sol-momma.com"
 }
