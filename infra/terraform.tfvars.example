@@ -1,0 +1,4 @@
+cloudflare_api_token  = "your-api-token-here"
+cloudflare_account_id = "your-account-id-here"
+project_name          = "sol-momma-world"
+custom_domain         = "sol-momma.com"
