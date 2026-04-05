@@ -1,5 +1,5 @@
 {
-	"compatibility_date": "2026-04-02",
+	"compatibility_date": "2026-04-05",
 	"compatibility_flags": ["global_fetch_strictly_public"],
 	"name": "squealing-spiral",
 	"main": "@astrojs/cloudflare/entrypoints/server",
