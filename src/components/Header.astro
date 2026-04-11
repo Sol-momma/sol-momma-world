@@ -3,16 +3,16 @@ import HeaderLink from "./HeaderLink.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 ---
 
-<header class="animate-fade-in-down px-6 pt-4 pb-4">
-  <nav class="flex items-center justify-between">
+<header class="animate-fade-in-down px-4 pt-4 pb-4 sm:px-6">
+  <nav class="flex items-center justify-between gap-2">
     <ThemeToggle />
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 sm:gap-3">
       <div class="nav-bar">
         <HeaderLink href="/">Home</HeaderLink>
         <!-- <HeaderLink href="/blog">Blog</HeaderLink> -->
         <HeaderLink href="/about">About</HeaderLink>
       </div>
-      <a href="/Resume_SoMomma.pdf" download class="resume-btn">
+      <a href="/Resume_SoMomma.pdf" download class="resume-btn" aria-label="Resume">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="12"
@@ -28,7 +28,7 @@ import ThemeToggle from "./ThemeToggle.astro";
           <polyline points="7 10 12 15 17 10"></polyline>
           <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
-        <span>Resume</span>
+        <span class="resume-label">Resume</span>
       </a>
     </div>
   </nav>
@@ -46,5 +46,14 @@ import ThemeToggle from "./ThemeToggle.astro";
     border-radius: 9999px;
     padding: 4px;
     box-shadow: 0 2px 16px var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
+  }
+
+  @media (max-width: 480px) {
+    .resume-label {
+      display: none;
+    }
+    :global(.resume-btn) {
+      padding: 0.5rem 0.65rem !important;
+    }
   }
 </style>

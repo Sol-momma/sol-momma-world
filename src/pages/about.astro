@@ -107,7 +107,7 @@ const techStack = [
 
       <div class="relative">
         <div
-          class="animate-line-grow bg-gray-dark absolute top-0 left-1/2 h-full w-[2px] -translate-x-1/2"
+          class="timeline-line animate-line-grow bg-gray-dark absolute top-0 left-1/2 h-full w-[2px] -translate-x-1/2"
         >
         </div>
 
@@ -419,6 +419,10 @@ const techStack = [
       grid-template-columns: 1fr;
     }
 
+    .profile-cell {
+      padding: 1rem 1.1rem;
+    }
+
     .profile-cell:nth-child(odd) {
       border-right: none;
     }
@@ -429,6 +433,38 @@ const techStack = [
 
     .profile-cell:nth-last-child(2) {
       border-bottom: 1px solid var(--glass-border);
+    }
+
+    .timeline-line {
+      left: 20px;
+      transform: none;
+    }
+
+    .contact-card {
+      padding: 1.5rem 1.25rem;
+      border-radius: 1rem;
+    }
+
+    .contact-title {
+      font-size: 1.5em;
+    }
+
+    .contact-links {
+      gap: 0.5rem;
+    }
+
+    .contact-link {
+      font-size: 0.72rem;
+      padding: 0.45rem 0.85rem;
+    }
+
+    .tech-pill {
+      font-size: 0.78rem;
+      padding: 0.4rem 0.9rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
     }
   }
 </style>

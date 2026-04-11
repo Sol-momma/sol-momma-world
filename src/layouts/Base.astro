@@ -64,6 +64,15 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION, ogSlug = "index" } =
         z-index: 100;
       }
 
+      @media (max-width: 640px) {
+        .back-to-top {
+          bottom: 1rem;
+          right: 1rem;
+          width: 36px;
+          height: 36px;
+        }
+      }
+
       .back-to-top.visible {
         opacity: 1;
         transform: translateY(0);
