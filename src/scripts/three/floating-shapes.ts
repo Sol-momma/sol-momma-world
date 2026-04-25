@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { mulberry32, randRange, pickRandom } from "./prng";
+import { observeTheme, type Theme } from "./theme-sync";
 
 const PALETTE = [0xe8dcc4, 0xd4b896, 0xa89078, 0x8b9a82, 0xc9a57b];
 
@@ -144,6 +145,19 @@ export function init(
   }
   motionMql.addEventListener("change", onMotionChange);
 
+  // Theme sync — light/dark でライト強度・色を切替
+  const stopThemeSync = observeTheme((theme: Theme) => {
+    if (theme === "dark") {
+      ambientLight.intensity = 0.25;
+      directionalLight.intensity = 0.6;
+      pointLight.color.set(0x7a9bd6);
+    } else {
+      ambientLight.intensity = 0.4;
+      directionalLight.intensity = 0.8;
+      pointLight.color.set(0xa8c4e8);
+    }
+  });
+
   function onMouseMove(e: MouseEvent) {
     if (reduceMotion) return;
     parallaxX = (e.clientX / window.innerWidth - 0.5) * 1.0;
@@ -213,6 +227,7 @@ export function init(
     cancelAnimationFrame(rafId);
     window.removeEventListener("resize", onResize);
     motionMql.removeEventListener("change", onMotionChange);
+    stopThemeSync();
     if (isHover) {
       window.removeEventListener("mousemove", onMouseMove);
     } else {
