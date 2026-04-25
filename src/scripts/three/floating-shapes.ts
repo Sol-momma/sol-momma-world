@@ -1,4 +1,17 @@
 import * as THREE from "three";
+import { mulberry32, randRange, pickRandom } from "./prng";
+
+const PALETTE = [0xe8dcc4, 0xd4b896, 0xa89078, 0x8b9a82, 0xc9a57b];
+
+interface ShapeInstance {
+  mesh: THREE.Mesh;
+  rotationAxis: THREE.Vector3;
+  rotationSpeed: number;
+  baseY: number;
+  bobAmplitude: number;
+  bobSpeed: number;
+  bobPhase: number;
+}
 
 export type Mode = "matte" | "wire" | "glass" | "neon";
 
@@ -38,6 +51,67 @@ export function init(
   camera.position.set(0, 0, 0);
   camera.lookAt(0, 0, -1);
 
+  // Seeded PRNG
+  const seed = _options.seed ?? 0xc0ffee;
+  const rng = mulberry32(seed);
+
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(5, 5, 5);
+  scene.add(directionalLight);
+
+  const pointLight = new THREE.PointLight(0xa8c4e8, 0.3);
+  pointLight.position.set(-3, 0, 2);
+  scene.add(pointLight);
+
+  // Shapes — 5 種類 × 3〜4 個ずつ計 15〜20 個
+  const shapes: ShapeInstance[] = [];
+  const geometryFactories: Array<() => THREE.BufferGeometry> = [
+    () => new THREE.BoxGeometry(1, 1, 1),
+    () => new THREE.SphereGeometry(0.6, 32, 16),
+    () => new THREE.TorusGeometry(0.5, 0.2, 16, 32),
+    () => new THREE.IcosahedronGeometry(0.6, 0),
+    () => new THREE.ConeGeometry(0.5, 1, 32),
+  ];
+
+  for (const factory of geometryFactories) {
+    const count = 3 + Math.floor(rng() * 2); // 3 or 4
+    for (let i = 0; i < count; i++) {
+      const geometry = factory();
+      const material = new THREE.MeshStandardMaterial({
+        color: pickRandom(rng, PALETTE),
+        roughness: 0.7,
+        metalness: 0.05,
+      });
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.scale.setScalar(randRange(rng, 0.4, 1.2));
+      const x = randRange(rng, -6, 6);
+      const y = randRange(rng, -4, 4);
+      const z = randRange(rng, -8, -2);
+      mesh.position.set(x, y, z);
+
+      const axis = new THREE.Vector3(
+        randRange(rng, -1, 1),
+        randRange(rng, -1, 1),
+        randRange(rng, -1, 1),
+      ).normalize();
+
+      shapes.push({
+        mesh,
+        rotationAxis: axis,
+        rotationSpeed: randRange(rng, 0.1, 0.3),
+        baseY: y,
+        bobAmplitude: 0.2,
+        bobSpeed: randRange(rng, (2 * Math.PI) / 5, (2 * Math.PI) / 3),
+        bobPhase: randRange(rng, 0, 2 * Math.PI),
+      });
+      scene.add(mesh);
+    }
+  }
+
   // Resize handler
   function onResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -48,7 +122,19 @@ export function init(
 
   // Animation loop
   let rafId = 0;
-  function animate() {
+  let prevTime = performance.now();
+
+  function animate(time: number) {
+    const dt = (time - prevTime) / 1000;
+    prevTime = time;
+
+    for (const s of shapes) {
+      s.mesh.rotateOnAxis(s.rotationAxis, s.rotationSpeed * dt);
+      s.mesh.position.y =
+        s.baseY +
+        Math.sin(time * 0.001 * s.bobSpeed + s.bobPhase) * s.bobAmplitude;
+    }
+
     renderer.render(scene, camera);
     rafId = requestAnimationFrame(animate);
   }
