@@ -1,0 +1,50 @@
+---
+interface Props {
+  demo: string;
+}
+const { demo } = Astro.props;
+---
+
+<canvas data-three-canvas data-demo={demo}></canvas>
+
+<style>
+  canvas[data-three-canvas] {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    z-index: 0;
+  }
+</style>
+
+<script>
+  type DemoModule = {
+    init: (canvas: HTMLCanvasElement) => { dispose: () => void };
+  };
+
+  const canvas = document.querySelector<HTMLCanvasElement>(
+    "canvas[data-three-canvas]",
+  );
+  if (canvas) {
+    const demoName = canvas.dataset.demo;
+    const modules: Record<string, () => Promise<DemoModule>> = {
+      "floating-shapes": () => import("../../scripts/three/floating-shapes"),
+      "blob-hero": () => import("../../scripts/three/demos/blob-hero"),
+      "3d-name": () => import("../../scripts/three/demos/3d-name"),
+      "liquid-metal": () => import("../../scripts/three/demos/liquid-metal"),
+      sculpture: () => import("../../scripts/three/demos/sculpture"),
+      generative: () => import("../../scripts/three/demos/generative"),
+      "scroll-story": () => import("../../scripts/three/demos/scroll-story"),
+    };
+    const loader = demoName ? modules[demoName] : undefined;
+    if (loader) {
+      loader().then((mod) => {
+        const handle = mod.init(canvas);
+        window.addEventListener("beforeunload", () => handle.dispose(), {
+          once: true,
+        });
+      });
+    }
+  }
+</script>
