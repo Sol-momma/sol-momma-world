@@ -1,0 +1,43 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import CanvasFrame from "../../components/three/CanvasFrame.astro";
+import { SITE_TITLE } from "../../consts";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead
+      title={`Sculpture — Experiments — ${SITE_TITLE}`}
+      description="ローポリ彫刻、orbit で全方位観察。"
+    />
+  </head>
+  <body>
+    <a class="back glass" href="/experiments">← Experiments</a>
+    <CanvasFrame demo="sculpture" />
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100%;
+        background: var(--t-bg);
+      }
+    </style>
+    <style>
+      .back {
+        position: fixed;
+        top: 1.5rem;
+        left: 1.5rem;
+        z-index: 10;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        text-decoration: none;
+        color: var(--t-text);
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+    </style>
+  </body>
+</html>
