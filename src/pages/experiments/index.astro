@@ -1,0 +1,102 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import { SITE_TITLE } from "../../consts";
+
+interface Demo {
+  slug: string;
+  title: string;
+  description: string;
+}
+const demos: Demo[] = [
+  {
+    slug: "floating-shapes",
+    title: "Floating Shapes",
+    description: "ベージュ系幾何形状の浮遊と parallax",
+  },
+  {
+    slug: "blob-hero",
+    title: "Blob Hero",
+    description: "vertex shader で歪むガラス球",
+  },
+  {
+    slug: "3d-name",
+    title: "3D Name",
+    description: '立体タイポグラフィ "So Momma"',
+  },
+  {
+    slug: "liquid-metal",
+    title: "Liquid Metal",
+    description: "メタリックな波打つ平面",
+  },
+  {
+    slug: "sculpture",
+    title: "Sculpture",
+    description: "ローポリ彫刻、orbit で全方位",
+  },
+  {
+    slug: "generative",
+    title: "Generative",
+    description: "時刻で変わる procedural scene",
+  },
+  {
+    slug: "scroll-story",
+    title: "Scroll Story",
+    description: "scroll で 3 シーンを巡る",
+  },
+];
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead
+      title={`Experiments — ${SITE_TITLE}`}
+      description="three.js で作った芸術系インタラクティブ実験集。"
+    />
+  </head>
+  <body>
+    <Header />
+    <main class="mx-auto max-w-5xl px-6 py-12">
+      <h1 class="mb-2 font-serif text-3xl italic">Experiments</h1>
+      <p class="mb-10 text-sm opacity-70">
+        three.js で作った芸術系インタラクティブ実験集。各カードをクリック。
+      </p>
+
+      <ul class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        {
+          demos.map((demo) => (
+            <li>
+              <a
+                class="card glass block p-5 transition-transform"
+                href={`/experiments/${demo.slug}`}
+              >
+                <h2 class="mb-1 text-lg font-medium">{demo.title}</h2>
+                <p class="text-xs opacity-60">{demo.description}</p>
+                <span class="arrow mt-3 inline-block text-xl">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </main>
+
+    <style>
+      .card {
+        border-radius: 1rem;
+        color: var(--t-text);
+        text-decoration: none;
+        height: 100%;
+      }
+      .card:hover {
+        transform: scale(1.02);
+      }
+      .arrow {
+        transition: transform 0.2s ease;
+      }
+      .card:hover .arrow {
+        transform: translateX(4px);
+      }
+    </style>
+  </body>
+</html>
