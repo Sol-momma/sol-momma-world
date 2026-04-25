@@ -131,18 +131,34 @@ export function init(
   let lastTouchX = 0;
   let lastTouchY = 0;
 
+  const motionMql = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let reduceMotion = motionMql.matches;
+  function onMotionChange(e: MediaQueryListEvent) {
+    reduceMotion = e.matches;
+    if (reduceMotion) {
+      parallaxX = 0;
+      parallaxY = 0;
+      dragX = 0;
+      dragY = 0;
+    }
+  }
+  motionMql.addEventListener("change", onMotionChange);
+
   function onMouseMove(e: MouseEvent) {
+    if (reduceMotion) return;
     parallaxX = (e.clientX / window.innerWidth - 0.5) * 1.0;
     parallaxY = -(e.clientY / window.innerHeight - 0.5) * 0.6;
   }
 
   function onTouchStart(e: TouchEvent) {
+    if (reduceMotion) return;
     if (e.touches.length === 0) return;
     touchActive = true;
     lastTouchX = e.touches[0]!.clientX;
     lastTouchY = e.touches[0]!.clientY;
   }
   function onTouchMove(e: TouchEvent) {
+    if (reduceMotion) return;
     if (!touchActive || e.touches.length === 0) return;
     const t = e.touches[0]!;
     const dx = t.clientX - lastTouchX;
@@ -172,18 +188,20 @@ export function init(
     const dt = (time - prevTime) / 1000;
     prevTime = time;
 
-    for (const s of shapes) {
-      s.mesh.rotateOnAxis(s.rotationAxis, s.rotationSpeed * dt);
-      s.mesh.position.y =
-        s.baseY +
-        Math.sin(time * 0.001 * s.bobSpeed + s.bobPhase) * s.bobAmplitude;
-    }
+    if (!reduceMotion) {
+      for (const s of shapes) {
+        s.mesh.rotateOnAxis(s.rotationAxis, s.rotationSpeed * dt);
+        s.mesh.position.y =
+          s.baseY +
+          Math.sin(time * 0.001 * s.bobSpeed + s.bobPhase) * s.bobAmplitude;
+      }
 
-    const targetX = parallaxX + dragX;
-    const targetY = parallaxY + dragY;
-    cameraTarget.x += (targetX - cameraTarget.x) * 0.1;
-    cameraTarget.y += (targetY - cameraTarget.y) * 0.1;
-    camera.lookAt(cameraTarget);
+      const targetX = parallaxX + dragX;
+      const targetY = parallaxY + dragY;
+      cameraTarget.x += (targetX - cameraTarget.x) * 0.1;
+      cameraTarget.y += (targetY - cameraTarget.y) * 0.1;
+      camera.lookAt(cameraTarget);
+    }
 
     renderer.render(scene, camera);
     rafId = requestAnimationFrame(animate);
@@ -194,6 +212,7 @@ export function init(
   function dispose() {
     cancelAnimationFrame(rafId);
     window.removeEventListener("resize", onResize);
+    motionMql.removeEventListener("change", onMotionChange);
     if (isHover) {
       window.removeEventListener("mousemove", onMouseMove);
     } else {
