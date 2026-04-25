@@ -889,12 +889,12 @@ pnpm build
 Expected:
 - エラーなし
 - `dist/experiments/index.html` が生成される
-- 出力サイズ ログで `experiments` 関連 chunk に three が含まれ、index.html・about.html などのページの chunk には含まれていないこと（実際には `_astro/*.js` を grep）
+- 他ページ（index.html・about.html・blog/）に three が漏れていないかを目視確認
 
 ```bash
-grep -l "THREE\|three.module" dist/_astro/*.js | head -5
+du -sh dist/_astro/*.js | sort -h | tail -5
 ```
-Expected: 1〜2 個のファイル名が出力（experiments 用の chunk のみ）
+Expected: 一番大きい chunk が three を含むもので、他の chunk と比べて圧倒的に大きい（数百KB級）。小さい chunk に three は含まれない。気になる場合は最大 chunk を `head -c 500` で先頭だけ確認。
 
 - [ ] **Step 3: spec の verification 表に従って手動確認**
 
