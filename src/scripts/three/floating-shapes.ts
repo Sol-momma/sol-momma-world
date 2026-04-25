@@ -120,6 +120,50 @@ export function init(
   }
   window.addEventListener("resize", onResize);
 
+  // Interaction state
+  const isHover = window.matchMedia("(hover: hover)").matches;
+  const cameraTarget = new THREE.Vector3(0, 0, -1);
+  let parallaxX = 0;
+  let parallaxY = 0;
+  let dragX = 0;
+  let dragY = 0;
+  let touchActive = false;
+  let lastTouchX = 0;
+  let lastTouchY = 0;
+
+  function onMouseMove(e: MouseEvent) {
+    parallaxX = (e.clientX / window.innerWidth - 0.5) * 1.0;
+    parallaxY = -(e.clientY / window.innerHeight - 0.5) * 0.6;
+  }
+
+  function onTouchStart(e: TouchEvent) {
+    if (e.touches.length === 0) return;
+    touchActive = true;
+    lastTouchX = e.touches[0]!.clientX;
+    lastTouchY = e.touches[0]!.clientY;
+  }
+  function onTouchMove(e: TouchEvent) {
+    if (!touchActive || e.touches.length === 0) return;
+    const t = e.touches[0]!;
+    const dx = t.clientX - lastTouchX;
+    const dy = t.clientY - lastTouchY;
+    dragX = Math.max(-0.5, Math.min(0.5, dragX + dx * 0.002));
+    dragY = Math.max(-0.3, Math.min(0.3, dragY - dy * 0.002));
+    lastTouchX = t.clientX;
+    lastTouchY = t.clientY;
+  }
+  function onTouchEnd() {
+    touchActive = false;
+  }
+
+  if (isHover) {
+    window.addEventListener("mousemove", onMouseMove);
+  } else {
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+  }
+
   // Animation loop
   let rafId = 0;
   let prevTime = performance.now();
@@ -135,6 +179,12 @@ export function init(
         Math.sin(time * 0.001 * s.bobSpeed + s.bobPhase) * s.bobAmplitude;
     }
 
+    const targetX = parallaxX + dragX;
+    const targetY = parallaxY + dragY;
+    cameraTarget.x += (targetX - cameraTarget.x) * 0.1;
+    cameraTarget.y += (targetY - cameraTarget.y) * 0.1;
+    camera.lookAt(cameraTarget);
+
     renderer.render(scene, camera);
     rafId = requestAnimationFrame(animate);
   }
@@ -144,6 +194,13 @@ export function init(
   function dispose() {
     cancelAnimationFrame(rafId);
     window.removeEventListener("resize", onResize);
+    if (isHover) {
+      window.removeEventListener("mousemove", onMouseMove);
+    } else {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+    }
     scene.traverse((obj) => {
       if ((obj as THREE.Mesh).isMesh) {
         const mesh = obj as THREE.Mesh;
