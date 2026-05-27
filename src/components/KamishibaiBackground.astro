@@ -6,7 +6,9 @@
 <style is:global>
   body:has(#kamishibai-bg) {
     background: transparent !important;
-    /* Force dark-compatible colors regardless of light/dark mode */
+  }
+  /* Dark mode: force light text/glass on the dark Three.js background */
+  html[data-theme="dark"] body:has(#kamishibai-bg) {
     --t-black: rgb(230, 228, 220);
     --t-gray: rgb(150, 148, 140);
     --t-accent: rgb(220, 218, 210);
@@ -96,21 +98,38 @@
     return pos;
   }
 
-  const BG_COLORS = [
+  const DARK_BG = [
     new THREE.Color(0x0c0a14), // void: deep purple
     new THREE.Color(0x071220), // discovery: deep navy
     new THREE.Color(0x180d04), // formation: deep amber
     new THREE.Color(0x140818), // explosion: deep rose
     new THREE.Color(0x100e0c), // home: warm near-black
   ];
-
-  const PARTICLE_COLORS = [
+  const DARK_PARTICLES = [
     new THREE.Color(0x8080ff), // void: blue-purple
     new THREE.Color(0x40c0ff), // discovery: cyan
     new THREE.Color(0xffb040), // formation: amber-gold
     new THREE.Color(0xff6080), // explosion: rose-red
     new THREE.Color(0xffd080), // home: warm yellow
   ];
+
+  const LIGHT_BG = [
+    new THREE.Color(0xece8de), // void: warm cream
+    new THREE.Color(0xdce8f2), // discovery: soft sky blue
+    new THREE.Color(0xf2e4cc), // formation: warm peach
+    new THREE.Color(0xf2d8e4), // explosion: soft rose
+    new THREE.Color(0xeceae2), // home: warm white
+  ];
+  const LIGHT_PARTICLES = [
+    new THREE.Color(0x5050a0), // void: deep indigo
+    new THREE.Color(0x2060a0), // discovery: steel blue
+    new THREE.Color(0xa05020), // formation: warm brown-orange
+    new THREE.Color(0xa02050), // explosion: deep rose
+    new THREE.Color(0x806020), // home: amber-gold
+  ];
+
+  const isDark = () =>
+    document.documentElement.getAttribute("data-theme") === "dark";
 
   function lerpColor(colors: THREE.Color[], progress: number): THREE.Color {
     const s = Math.min(Math.max(Math.floor(progress), 0), colors.length - 2);
@@ -243,7 +262,7 @@
     vertexShader,
     fragmentShader,
     transparent: true,
-    blending: THREE.AdditiveBlending,
+    blending: isDark() ? THREE.AdditiveBlending : THREE.NormalBlending,
     depthWrite: false,
   });
 
@@ -277,17 +296,32 @@
 
   const clock = new THREE.Clock();
 
+  let lastDark = isDark();
+
   function animate() {
     requestAnimationFrame(animate);
     const elapsed = clock.getElapsedTime();
 
     currentProgress += (targetProgress - currentProgress) * 0.04;
 
+    const dark = isDark();
+    if (dark !== lastDark) {
+      material.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
+      material.needsUpdate = true;
+      lastDark = dark;
+    }
+
     material.uniforms.u_time.value = elapsed;
     material.uniforms.u_progress.value = currentProgress;
-    material.uniforms.u_color.value = lerpColor(PARTICLE_COLORS, currentProgress);
+    material.uniforms.u_color.value = lerpColor(
+      dark ? DARK_PARTICLES : LIGHT_PARTICLES,
+      currentProgress,
+    );
 
-    renderer.setClearColor(lerpColor(BG_COLORS, currentProgress), 1.0);
+    renderer.setClearColor(
+      lerpColor(dark ? DARK_BG : LIGHT_BG, currentProgress),
+      1.0,
+    );
 
     camAngle += 0.0003;
     camera.position.x = Math.sin(camAngle) * 0.5;
