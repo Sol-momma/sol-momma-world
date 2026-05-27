@@ -26,13 +26,16 @@
     "three": "^0.184.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.8",
     "@resvg/resvg-js": "^2.6.2",
+    "@types/three": "^0.184.0",
     "budoux": "^0.8.1",
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "satori": "^0.26.0",
     "satori-html": "^0.3.2",
+    "typescript": "^6.0.3",
     "wrangler": "^4.80.0"
   },
   "overrides": {
