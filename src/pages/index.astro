@@ -1,5 +1,6 @@
 ---
 import Header from "../components/Header.astro";
+import KamishibaiBackground from "../components/KamishibaiBackground.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Base from "../layouts/Base.astro";
 
@@ -7,47 +8,110 @@ const name = "Sol-momma";
 ---
 
 <Base>
-  <Header />
-  <main
-    class="flex min-h-[calc(100vh-100px)] flex-col items-center justify-center px-6"
-  >
-    <div
-      id="avatar-tilt"
-      class="animate-scale-in mb-10 [perspective:800px]"
-    >
-      <div id="avatar-inner" class="glass-card">
-        <div class="glass-image">
-          <picture>
-            <source srcset="/avatar.webp" type="image/webp" />
-            <img src="/avatar.jpg" alt="Sol-momma" width="416" height="416" />
-          </picture>
+  <KamishibaiBackground />
+
+  <div class="kamishibai-stage">
+    <div class="kamishibai-content">
+      <Header />
+      <main class="flex flex-1 flex-col items-center justify-center px-6">
+        <div id="avatar-tilt" class="animate-scale-in mb-4 sm:mb-10 [perspective:800px]" style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)">
+          <div id="avatar-inner" class="glass-card">
+            <div class="glass-image">
+              <picture>
+                <source srcset="/avatar.webp" type="image/webp" />
+                <img src="/avatar.jpg" alt="Sol-momma" width="416" height="416" />
+              </picture>
+            </div>
+          </div>
         </div>
+
+        <h1 class="name-wave animate-fade-in-up mb-2 delay-2 max-sm:text-2xl">
+          {
+            name.split("").map((char, i) => (
+              <span class="wave-char" style={`--i: ${i}`}>
+                {char}
+              </span>
+            ))
+          }
+        </h1>
+        <p class="animate-fade-in-up text-gray text-base tracking-wide delay-3" style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)">
+          <span id="typewriter" class="typewriter"></span>
+        </p>
+
+        <SocialLinks
+          class="animate-fade-in-up flex items-center gap-6 delay-4"
+          linkClass="social-icon text-gray"
+        />
+      </main>
+
+      <div class="scroll-hint">
+        <span>scroll</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
       </div>
     </div>
-
-    <h1 class="name-wave animate-fade-in-up mb-2 delay-2 max-sm:text-2xl">
-      {
-        name.split("").map((char, i) => (
-          <span class="wave-char" style={`--i: ${i}`}>
-            {char}
-          </span>
-        ))
-      }
-    </h1>
-    <p
-      class="animate-fade-in-up text-gray mb-10 text-base tracking-wide delay-3"
-    >
-      <span id="typewriter" class="typewriter"></span>
-    </p>
-
-    <SocialLinks
-      class="animate-fade-in-up flex items-center gap-6 delay-4"
-      linkClass="social-icon text-gray"
-    />
-  </main>
+  </div>
 </Base>
 
 <style is:global>
+  .kamishibai-stage {
+    position: relative;
+    z-index: 1;
+    height: 500vh;
+  }
+
+  .kamishibai-content {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: clip;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    animation: scrollHintBounce 2s ease-in-out infinite;
+    transition: opacity 0.5s ease;
+  }
+
+  .scroll-hint.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes scrollHintBounce {
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(5px);
+    }
+  }
+
   .glass-card {
     position: relative;
     width: 13rem;
@@ -102,7 +166,17 @@ const name = "Sol-momma";
     }
   }
 
-  /* Typewriter */
+  /* Compact layout for landscape mobile */
+  @media (max-height: 500px) {
+    .glass-card {
+      width: 6rem !important;
+      height: 6rem !important;
+    }
+    .scroll-hint {
+      display: none;
+    }
+  }
+
   .typewriter::after {
     content: "|";
     animation: blink 0.8s step-end infinite;
@@ -139,7 +213,8 @@ const name = "Sol-momma";
       var rect = container.getBoundingClientRect();
       var dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
       var dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
-      inner.style.transform = "rotateX(" + (-dy * maxTilt) + "deg) rotateY(" + (dx * maxTilt) + "deg) scale(1.04)";
+      inner.style.transform =
+        "rotateX(" + -dy * maxTilt + "deg) rotateY(" + dx * maxTilt + "deg) scale(1.04)";
     });
 
     container.addEventListener("mouseleave", function () {
@@ -147,14 +222,19 @@ const name = "Sol-momma";
     });
 
     var words = ["Software Engineer", "Full-stack Developer", "CS Student"];
-    var wordIdx = 0, charIdx = 0, deleting = false;
+    var wordIdx = 0,
+      charIdx = 0,
+      deleting = false;
 
     function type() {
       var word = words[wordIdx];
       if (!deleting) {
         el.textContent = word.slice(0, ++charIdx);
         if (charIdx === word.length) {
-          setTimeout(function () { deleting = true; type(); }, 2000);
+          setTimeout(function () {
+            deleting = true;
+            type();
+          }, 2000);
           return;
         }
         setTimeout(type, 80);
@@ -170,5 +250,17 @@ const name = "Sol-momma";
       }
     }
     setTimeout(type, 800);
+
+    // Hide scroll hint after first scroll
+    var hint = document.querySelector(".scroll-hint");
+    if (hint) {
+      window.addEventListener(
+        "scroll",
+        function () {
+          if (window.scrollY > 50) hint.classList.add("hidden");
+        },
+        { passive: true, once: true },
+      );
+    }
   })();
 </script>

@@ -22,7 +22,8 @@
     "astro": "^6.1.1",
     "latest": "^0.2.0",
     "sharp": "^0.34.3",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
