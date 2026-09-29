@@ -8,7 +8,7 @@ import { loadDefaultJapaneseParser } from "budoux";
 const parser = loadDefaultJapaneseParser();
 
 const SITE_TITLE = "Sol-momma";
-const OUT_DIR = "dist/client/og";
+const OUT_DIR = "dist/og";
 
 async function fetchFont() {
   const url =
