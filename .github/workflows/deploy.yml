@@ -3,6 +3,10 @@ name: Deploy to Cloudflare Workers
 on:
   push:
     branches: [main]
+  # Dependabot の自動マージ（GITHUB_TOKEN によるマージ）は push でデプロイが起動しないため、
+  # 毎日 03:00 JST にも main をデプロイして取りこぼしを防ぐ
+  schedule:
+    - cron: "0 18 * * *"
   workflow_dispatch:
 
 permissions:
