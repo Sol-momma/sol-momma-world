@@ -17,7 +17,7 @@ Astro v6 の個人ポートフォリオ＋ブログサイト。Tailwind CSS v4�
 
 `src/content.config.ts` で1つのコレクションを定義:
 
-- **experience** (`src/content/experience/`): Markdown。スキーマ: name, role, period, order。aboutページのタイムラインに使用。orderで並び順、左右は自動交互配置
+- **experience** (`src/content/experience/`): Markdown。スキーマ: name, role, period, order。aboutページのタイムラインに使用。order の大きい順（新しい順）に表示、左右は自動交互配置
 
 ファイルを追加するだけで自動的にページ/タイムラインに反映される。
 

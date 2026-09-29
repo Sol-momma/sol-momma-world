@@ -98,7 +98,7 @@ order: 5
 ---
 ```
 
-The timeline on the About page updates automatically. `order` controls sort position; left/right placement alternates.
+The timeline on the About page updates automatically. Entries are shown newest first: a higher `order` appears higher; left/right placement alternates.
 
 ## Theming
 

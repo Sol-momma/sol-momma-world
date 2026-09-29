@@ -6,7 +6,7 @@ import TimelineItem from "../components/TimelineItem.astro";
 import Base from "../layouts/Base.astro";
 
 const experiences = (await getCollection("experience")).sort(
-  (a, b) => a.data.order - b.data.order,
+  (a, b) => b.data.order - a.data.order,
 );
 
 const profileData = [
