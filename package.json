@@ -15,11 +15,9 @@
     "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.6",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^6.4.8",
-    "latest": "^0.2.0",
+    "astro": "^7.3.5",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "three": "^0.186.1"
@@ -36,5 +34,10 @@
   },
   "overrides": {
     "vite": "^7"
+  },
+  "pnpm": {
+    "overrides": {
+      "defu": ">=6.1.5"
+    }
   }
 }
