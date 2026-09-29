@@ -8,7 +8,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://sol-momma-world.sol0608sol.workers.dev",
+  site: "https://sol-momma.com",
   integrations: [mdx(), sitemap()],
 
   vite: {

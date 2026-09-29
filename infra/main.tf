@@ -14,4 +14,4 @@ provider "cloudflare" {
 }
 
 # Workers の静的サイト配信設定は wrangler.jsonc で管理
-# カスタムドメイン取得時にここに DNS 設定を追加
+# カスタムドメイン (sol-momma.com) も wrangler.jsonc の routes で管理

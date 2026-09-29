@@ -4,7 +4,7 @@ https://abehiroshi.la.coocan.jp/
 
 Personal portfolio website with a warm editorial aesthetic inspired by [The Browser Company](https://thebrowser.company/), featuring Apple Liquid Glass UI effects and smooth animations.
 
-**Live:** [sol-momma-world.sol0608sol.workers.dev](https://sol-momma-world.sol0608sol.workers.dev)
+**Live:** [sol-momma.com](https://sol-momma.com)
 
 ## Features
 
