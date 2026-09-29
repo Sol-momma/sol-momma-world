@@ -51,7 +51,7 @@ jobs:
       # デプロイ後に本番の主要ページが実際に返ることを確認する
       - name: Smoke test
         run: |
-          for path in / /about/ /Resume_SoMomma.pdf; do
+          for path in / /about/ /Resume_SoMomma.pdf /og/index.png; do
             for _ in $(seq 1 10); do
               code=$(curl -s -o /dev/null -w '%{http_code}' "https://sol-momma.com${path}")
               [ "$code" = 200 ] && break
