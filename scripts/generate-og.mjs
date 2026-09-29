@@ -61,25 +61,6 @@ async function generatePng(title, date, fontData) {
   return resvg.render().asPng();
 }
 
-function collectBlogPosts() {
-  const blogDir = "src/content/blog";
-  if (!fs.existsSync(blogDir)) return [];
-  const files = fs.readdirSync(blogDir).filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
-  return files.map((file) => {
-    const content = fs.readFileSync(path.join(blogDir, file), "utf-8");
-    const frontmatter = content.match(/^---\n([\s\S]*?)\n---/);
-    if (!frontmatter) return null;
-    const titleMatch = frontmatter[1].match(/^title:\s*["']?(.+?)["']?\s*$/m);
-    const dateMatch = frontmatter[1].match(/^pubDate:\s*["']?(.+?)["']?\s*$/m);
-    const slug = file.replace(/\.(md|mdx)$/, "");
-    return {
-      slug,
-      title: titleMatch?.[1] || slug,
-      date: dateMatch?.[1] || undefined,
-    };
-  }).filter(Boolean);
-}
-
 async function main() {
   console.log("Generating OG images...");
   const fontData = await fetchFont();
@@ -94,22 +75,6 @@ async function main() {
   const aboutPng = await generatePng(`About | ${SITE_TITLE}`, undefined, fontData);
   fs.writeFileSync(path.join(OUT_DIR, "about.png"), aboutPng);
   console.log("  ✓ /og/about.png");
-
-  // blog posts
-  const posts = collectBlogPosts();
-  const blogDir = path.join(OUT_DIR, "blog");
-  fs.mkdirSync(blogDir, { recursive: true });
-
-  for (const post of posts) {
-    const date = post.date
-      ? new Date(post.date).toLocaleDateString("ja-JP", {
-          year: "numeric", month: "long", day: "numeric",
-        })
-      : undefined;
-    const png = await generatePng(post.title, date, fontData);
-    fs.writeFileSync(path.join(blogDir, `${post.slug}.png`), png);
-    console.log(`  ✓ /og/blog/${post.slug}.png`);
-  }
 
   console.log("Done!");
 }

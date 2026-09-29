@@ -4,7 +4,7 @@ https://abehiroshi.la.coocan.jp/
 
 Personal portfolio website with a warm editorial aesthetic inspired by [The Browser Company](https://thebrowser.company/), featuring Apple Liquid Glass UI effects and smooth animations.
 
-**Live:** [sol-momma.com](https://sol-momma.com)
+**Live:** [sol-momma-world.sol0608sol.workers.dev](https://sol-momma-world.sol0608sol.workers.dev)
 
 ## Features
 
@@ -72,35 +72,18 @@ src/
 │   ├── HeaderLink.astro      # Nav link with active state
 │   └── icons/                # SVG icon components (size prop)
 ├── content/
-│   ├── blog/                 # Blog posts (Markdown/MDX)
 │   └── experience/           # Experience entries for timeline
 ├── layouts/
-│   ├── Base.astro            # HTML wrapper + global scripts
-│   └── BlogPost.astro        # Blog article layout
+│   └── Base.astro            # HTML wrapper + global scripts
 ├── pages/
 │   ├── index.astro           # Home (avatar, typewriter, socials)
-│   ├── about.astro           # Profile grid, tech stack, timeline, contact
-│   └── blog/                 # Blog listing & individual posts
+│   └── about.astro           # Profile grid, tech stack, timeline, contact
 ├── styles/
 │   └── global.css            # Theme tokens, glass utilities, animations
 └── consts.ts                 # Site title, description, social URLs
 ```
 
 ## Adding Content
-
-### Blog Post
-
-Add a `.md` or `.mdx` file to `src/content/blog/`:
-
-```markdown
----
-title: "Post Title"
-description: "Description"
-pubDate: "2026-04-03"
----
-
-Content here.
-```
 
 ### Experience Entry
 

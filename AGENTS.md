@@ -15,9 +15,8 @@ Astro v6 の個人ポートフォリオ＋ブログサイト。Tailwind CSS v4�
 
 ### Content Collections
 
-`src/content.config.ts` で2つのコレクションを定義:
+`src/content.config.ts` で1つのコレクションを定義:
 
-- **blog** (`src/content/blog/`): Markdown/MDX。スキーマ: title, description, pubDate, updatedDate?, heroImage?
 - **experience** (`src/content/experience/`): Markdown。スキーマ: name, role, period, order。aboutページのgitグラフ風タイムラインに使用。orderで並び順、左右は自動交互配置
 
 ファイルを追加するだけで自動的にページ/タイムラインに反映される。
@@ -25,7 +24,6 @@ Astro v6 の個人ポートフォリオ＋ブログサイト。Tailwind CSS v4�
 ### レイアウト構成
 
 - `layouts/Base.astro` — 全ページ共通の `<html>`/`<head>`/`<body>` ラッパー。title/descriptionをpropsで受け取る
-- `layouts/BlogPost.astro` — ブログ記事用。Base.astroを内部で使用
 - トップページ (`pages/index.astro`) は独自レイアウト（プロフィールページ）
 
 ### 共通コンポーネント設計

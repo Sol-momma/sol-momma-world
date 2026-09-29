@@ -12,8 +12,6 @@ const experiences = (await getCollection("experience")).sort(
 const profileData = [
   { label: "FULL NAME", value: "So Momma" },
   { label: "ALIAS", value: "Sol-momma" },
-  { label: "DATE OF BIRTH", value: "8 June 2004" },
-  { label: "AGE", value: "21 years old" },
   { label: "LOCATION", value: "Taoyuan, Taiwan" },
   { label: "LANGUAGES", value: "Japanese, English,Chinese(Traditional)" },
   { label: "UNIVERSITY", value: "Yuan-Ze University" },
@@ -29,12 +27,16 @@ const techStack = [
   },
   {
     category: "BACKEND",
-    skills: ["Node.js", "Python", "Go", "FastAPI", "PostgreSQL"],
+    skills: ["Node.js", "Python", "Go", "FastAPI", "Ruby on Rails", "GraphQL", "PostgreSQL"],
   },
-  // {
-  //   category: "CLOUD & DEVOPS",
-  //   skills: ["AWS", "Docker", "Kubernetes", "Terraform", "GitHub Actions"],
-  // },
+  {
+    category: "MOBILE & DESKTOP",
+    skills: ["Swift", "macOS"],
+  },
+  {
+    category: "CLOUD & DEVOPS",
+    skills: ["Google Cloud (GKE)", "Kubernetes", "ArgoCD", "Terraform", "Docker", "GitHub Actions"],
+  },
   {
     category: "TOOLS & IDES",
     skills: ["VS Code", "Cursor", "GitHub", "Figma"],
