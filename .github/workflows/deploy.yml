@@ -30,7 +30,7 @@ jobs:
           version: 10
 
       # 本番デプロイではキャッシュを使わない（cache poisoning 対策）
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0 # zizmor: ignore[cache-poisoning] v4 は cache 未指定ならキャッシュしない
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v4.4.0 # zizmor: ignore[cache-poisoning] v4 は cache 未指定ならキャッシュしない
         with:
           node-version: "22"
 
