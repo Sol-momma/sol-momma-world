@@ -15,9 +15,11 @@
     "deploy": "pnpm run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/preact": "^6.0.6",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.5",
+    "preact": "^11.0.1",
     "sharp": "^0.35.4",
     "tailwindcss": "^4.3.3",
     "three": "^0.186.1"

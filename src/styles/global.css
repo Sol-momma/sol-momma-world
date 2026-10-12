@@ -314,3 +314,150 @@
     transform: none !important;
   }
 }
+
+/* ===== Retro Mac Desktop ===== */
+/* Why not: flexboxではなく固定配置を使う理由は、レトロOSのウィンドウ配置の自由度を再現するため */
+
+.desktop-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  /* レトロMac風の淡いグレー背景 */
+  background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+  overflow: hidden;
+}
+
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  align-items: flex-start;
+}
+
+/* レトロMac風のウィンドウ */
+/* Why not: box-shadowではなく2pxずらした黒い枠を使う理由は、初期Macの限られたグラフィック能力を再現するため */
+.retro-window {
+  min-width: 400px;
+  max-width: 600px;
+  background: white;
+  border: 1px solid black;
+  /* 影の代わりに2pxずらした黒い四角 */
+  box-shadow: 2px 2px 0 0 black;
+  z-index: 10;
+}
+
+.retro-window-header {
+  background: white;
+  border-bottom: 1px solid black;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* 横縞模様 */
+  background-image: repeating-linear-gradient(
+    0deg,
+    black,
+    black 1px,
+    white 1px,
+    white 2px
+  );
+  user-select: none;
+}
+
+.retro-close-button {
+  width: 12px;
+  height: 12px;
+  border: 1px solid black;
+  background: white;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.retro-close-button:hover {
+  background: black;
+}
+
+.retro-window-title {
+  font-family: var(--font-atkinson);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: black;
+  flex: 1;
+  text-align: center;
+}
+
+.retro-window-body {
+  padding: 1rem;
+  max-height: 400px;
+  overflow-y: auto;
+  background: white;
+}
+
+/* 作品リスト */
+.works-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.work-item {
+  padding: 0.75rem;
+  border: 1px solid black;
+  background: white;
+}
+
+.work-title {
+  font-family: var(--font-atkinson);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: black;
+}
+
+.work-description {
+  font-size: 0.85rem;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  line-height: 1.4;
+}
+
+.work-link {
+  display: inline-block;
+  font-family: var(--font-atkinson);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: black;
+  text-decoration: underline;
+  transition: background 0.15s ease;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid transparent;
+}
+
+.work-link:hover {
+  background: black;
+  color: white;
+  text-decoration: none;
+  border-color: black;
+}
+
+/* レトロアイコンのSVG */
+.retro-icon {
+  filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.2));
+}
+
+/* スクリーンリーダー用の隠しテキスト */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
