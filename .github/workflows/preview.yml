@@ -41,18 +41,22 @@ jobs:
 
       - name: Deploy preview
         id: preview
-        uses: cloudflare/wrangler-action@9acf94ace14e7dc412b076f2c5c20b8ce93c79cd # v3.15.0
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: preview --name pr-${{ github.event.pull_request.number }}
+        run: |
+          set -o pipefail
+          output="$(npx wrangler preview --name pr-${{ github.event.pull_request.number }} --json)"
+          echo "$output"
+          preview_url="$(echo "$output" | jq -r '.preview.urls[0]')"
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Comment preview URL
-        if: steps.preview.outputs.preview-url
+        if: steps.preview.outputs.preview_url
         run: |
           gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 **プレビュー環境が準備できました！**
 
-          プレビューURL: ${{ steps.preview.outputs.preview-url }}
+          プレビューURL: ${{ steps.preview.outputs.preview_url }}
 
           このプレビューは本番環境（sol-momma.com）に影響しません。"
         env:
