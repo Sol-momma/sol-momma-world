@@ -43,9 +43,11 @@ jobs:
         id: preview
         run: |
           set -o pipefail
-          output="$(npx wrangler preview --name pr-${{ github.event.pull_request.number }} --json)"
+          output="$(npx wrangler preview --name pr-${{ github.event.pull_request.number }} --json 2>&1)"
           echo "$output"
-          preview_url="$(echo "$output" | jq -r '.preview.urls[0]')"
+          # JSON部分のみを抽出（最初の { から最後の } まで）
+          json_output="$(echo "$output" | sed -n '/{/,/^}/p' | tr -d '\n' | sed 's/.*\({.*}\).*/\1/')"
+          preview_url="$(echo "$json_output" | jq -r '.preview.urls[0]')"
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
