@@ -6,6 +6,7 @@
 	},
 	"workers_dev": true,
 	"preview_urls": true,
+	"previews": {},
 	"routes": [
 		{ "pattern": "sol-momma.com", "custom_domain": true },
 		{ "pattern": "www.sol-momma.com", "custom_domain": true }
