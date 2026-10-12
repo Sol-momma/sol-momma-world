@@ -45,8 +45,8 @@ jobs:
           set -o pipefail
           output="$(npx wrangler preview --name pr-${{ github.event.pull_request.number }} --json 2>&1)"
           echo "$output"
-          # JSON部分のみを抽出（最初の { から最後の } まで）
-          json_output="$(echo "$output" | sed -n '/{/,/^}/p' | tr -d '\n' | sed 's/.*\({.*}\).*/\1/')"
+          # JSON部分のみを抽出（最初の { が現れる行から最後まで）
+          json_output="$(echo "$output" | awk '/^{/,0')"
           preview_url="$(echo "$json_output" | jq -r '.preview.urls[0]')"
           echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
         env:
