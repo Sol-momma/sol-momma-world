@@ -7,9 +7,12 @@ on:
 permissions:
   contents: read
 
+# PR では同じ PR の古い実行を止め、最新の結果1つだけを見ればよいようにする（分数の節約＋認知負荷の削減）。
+# グループを PR 番号にする理由: github.ref だけだと既定ブランチへの push 同士も打ち消し合い、マージ後の結果が欠けることがある。
+# 既定ブランチへの push はキャンセルしない（なぜ: マージごとの結果を残したいため）。push 時は sha 単位のグループで重複しない。
 concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -31,3 +34,21 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
+
+  # 全ジョブの結果を「ci-ok」というチェック1つにまとめる。PR で見るのは緑か赤かの1つだけでよくなる（認知負荷の削減）。
+  # 必須チェックに各ジョブを個別に登録しない理由: ジョブを足す・名前を変えるたびにブランチ保護の設定も直す必要があるため。
+  # if: always() にする理由: 付けないと needs のジョブが失敗した時に ci-ok が skipped になり、
+  # 必須チェック上は「成功扱い」になり得る。必ず実行して、失敗・キャンセルを明示的に赤にする。
+  ci-ok:
+    if: always()
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 必要なジョブの結果を確認
+        # contains(needs.*.result, ...) で判定する理由: ジョブを needs に足すだけで判定対象が増え、ここを書き換えずに済む
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: |
+          echo "失敗またはキャンセルされたジョブがあります: ${{ toJSON(needs) }}"
+          exit 1
+      - run: echo "すべてのジョブが成功しました"
