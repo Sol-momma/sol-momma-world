@@ -1,0 +1,189 @@
+---
+import { privateProjects } from "../data/private-projects";
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      Why not: robots.txt で Disallow しないのは、robots.txt 自体が誰でも読めて
+      /private の存在を宣伝してしまうため。ページ単位の noindex で検索結果から外す。
+      アクセス制御そのものは Cloudflare Access に任せる（このタグは検索避けにすぎない）
+    -->
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Private - Sol-momma</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <!--
+      Why not: フォントファイルを public/fonts に同梱しないのは、見出しの英字にしか使わず、
+      バイナリとライセンス表記を増やすほどではないため。Silkscreen は OFL
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!--
+      Why not: /desktop のように Preact の Window を使わないのは、ドラッグも開閉も要らない
+      一覧表示だけなので、JS を送らない静的 HTML で足りるため
+    -->
+    <main class="private-desktop">
+      <section class="private-window" aria-labelledby="private-title">
+        <div class="private-titlebar">
+          <h1 id="private-title" class="private-title">Private Projects</h1>
+        </div>
+        <ul class="private-list">
+          {
+            privateProjects.map((project) => (
+              <li class="private-item">
+                <div class="private-item-head">
+                  <h2 class="private-name">{project.name}</h2>
+                  <span
+                    class:list={[
+                      "private-status",
+                      { "is-active": project.status === "開発中" },
+                    ]}
+                  >
+                    {project.status}
+                  </span>
+                </div>
+                <p class="private-description">{project.description}</p>
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="private-link"
+                >
+                  View →
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
+
+<!--
+  Why not: global.css の .retro-window を再利用しないのは、min-width: 400px でスマホ幅だと
+  はみ出すため。/desktop 側を直すと目的外の変更になるので、値（1px 黒枠・縞のタイトルバー・
+  2px ずらした影）だけ揃えてこのページに閉じたスタイルにする
+-->
+<style>
+  .private-desktop {
+    --accent: #2f5bff;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+    color: black;
+  }
+
+  .private-window {
+    max-width: 640px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid black;
+    box-shadow: 2px 2px 0 0 black;
+  }
+
+  .private-titlebar {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+    background-image: repeating-linear-gradient(
+      0deg,
+      black,
+      black 1px,
+      white 1px,
+      white 2px
+    );
+  }
+
+  /* 縞の上で読めるよう、文字の背後だけ白く抜く（初期 Mac のタイトルバーと同じ見せ方） */
+  .private-title {
+    margin: 0;
+    padding: 0 0.5rem;
+    background: white;
+    font-family: "Silkscreen", monospace;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  .private-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+  }
+
+  .private-item {
+    padding: 0.75rem;
+    border: 1px solid black;
+  }
+
+  .private-item-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .private-name {
+    margin: 0;
+    font-family: "Silkscreen", monospace;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    overflow-wrap: anywhere;
+  }
+
+  .private-status {
+    flex-shrink: 0;
+    padding: 0 0.375rem;
+    border: 1px solid black;
+    font-size: 0.75rem;
+  }
+
+  .private-status.is-active {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+  }
+
+  .private-description {
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #333;
+  }
+
+  .private-link {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: black;
+    text-decoration: underline;
+  }
+
+  .private-link:hover,
+  .private-link:focus-visible {
+    border-color: black;
+    background: black;
+    color: white;
+    text-decoration: none;
+  }
+</style>
