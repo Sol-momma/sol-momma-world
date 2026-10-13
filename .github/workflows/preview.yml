@@ -1,0 +1,65 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  deployments: write
+  pull-requests: write
+
+# 同じPRに対する複数のpreviewが並走しないようにする
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    # フォークからのPRではsecretsが渡らないため、リポジトリ内のPRのみ実行
+    # （フォークの場合はスキップされるが、これはセキュリティ上正しい挙動）
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        with:
+          version: 10
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      - name: Deploy preview
+        id: preview
+        run: |
+          set -o pipefail
+          output="$(npx wrangler preview --name pr-${{ github.event.pull_request.number }} --json 2>&1)"
+          echo "$output"
+          # JSON部分のみを抽出（最初の { が現れる行から最後まで）
+          json_output="$(echo "$output" | awk '/^{/,0')"
+          preview_url="$(echo "$json_output" | jq -r '.preview.urls[0]')"
+          echo "preview_url=$preview_url" >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Comment preview URL
+        if: steps.preview.outputs.preview_url
+        run: |
+          gh pr comment "${{ github.event.pull_request.number }}" --body "🚀 **プレビュー環境が準備できました！**
+
+          プレビューURL: ${{ steps.preview.outputs.preview_url }}
+
+          このプレビューは本番環境（sol-momma.com）に影響しません。"
+        env:
+          GH_TOKEN: ${{ github.token }}
