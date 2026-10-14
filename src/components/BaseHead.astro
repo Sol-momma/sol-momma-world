@@ -17,8 +17,11 @@ const ogImageUrl = new URL(`/og/${ogSlug}.png`, Astro.site);
 <meta name="color-scheme" content="light dark" />
 <script is:inline>
   (function () {
-    const t = localStorage.getItem("theme") ||
-      (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const t =
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light");
     document.documentElement.setAttribute("data-theme", t);
   })();
 </script>

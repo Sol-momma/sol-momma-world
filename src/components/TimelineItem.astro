@@ -9,9 +9,14 @@ interface Props {
 const { name, role, period, side } = Astro.props;
 ---
 
-<div class:list={["timeline-row scroll-animate relative mb-16 flex items-center last:mb-0", side === "left" ? "slide-left" : "slide-right"]}>
+<div
+  class:list={[
+    "timeline-row scroll-animate relative mb-16 flex items-center last:mb-0",
+    side === "left" ? "slide-left" : "slide-right",
+  ]}
+>
   <div
-    class="timeline-dot border-gray-dark absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] bg-cream"
+    class="timeline-dot border-gray-dark bg-cream absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px]"
   >
   </div>
 

@@ -1,0 +1,19 @@
+# 生成物
+dist
+.astro
+node_modules
+
+# ロックファイル
+pnpm-lock.yaml
+bun.lock
+package-lock.json
+
+# 外部素材
+public/fonts
+public/**/*.woff2
+public/**/*.jpg
+public/**/*.jpeg
+public/**/*.png
+public/**/*.webp
+public/**/*.pdf
+public/**/*.svg

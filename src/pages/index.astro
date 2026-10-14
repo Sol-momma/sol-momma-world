@@ -14,12 +14,21 @@ const name = "Sol-momma";
     <div class="kamishibai-content">
       <Header />
       <main class="flex flex-1 flex-col items-center justify-center px-6">
-        <div id="avatar-tilt" class="animate-scale-in mb-4 sm:mb-10 [perspective:800px]" style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)">
+        <div
+          id="avatar-tilt"
+          class="animate-scale-in mb-4 [perspective:800px] sm:mb-10"
+          style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)"
+        >
           <div id="avatar-inner" class="glass-card">
             <div class="glass-image">
               <picture>
                 <source srcset="/avatar.webp" type="image/webp" />
-                <img src="/avatar.jpg" alt="Sol-momma" width="416" height="416" />
+                <img
+                  src="/avatar.jpg"
+                  alt="Sol-momma"
+                  width="416"
+                  height="416"
+                />
               </picture>
             </div>
           </div>
@@ -34,7 +43,10 @@ const name = "Sol-momma";
             ))
           }
         </h1>
-        <p class="animate-fade-in-up text-gray text-base tracking-wide delay-3" style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)">
+        <p
+          class="animate-fade-in-up text-gray text-base tracking-wide delay-3"
+          style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)"
+        >
           <span id="typewriter" class="typewriter"></span>
         </p>
 
@@ -214,7 +226,11 @@ const name = "Sol-momma";
       var dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
       var dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
       inner.style.transform =
-        "rotateX(" + -dy * maxTilt + "deg) rotateY(" + dx * maxTilt + "deg) scale(1.04)";
+        "rotateX(" +
+        -dy * maxTilt +
+        "deg) rotateY(" +
+        dx * maxTilt +
+        "deg) scale(1.04)";
     });
 
     container.addEventListener("mouseleave", function () {
