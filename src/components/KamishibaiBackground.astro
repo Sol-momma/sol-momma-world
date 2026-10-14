@@ -205,11 +205,14 @@
       return aPos4;
     }
 
-    // TODO: シーン遷移のイージング関数を実装してください
+    // シーン遷移のイージング（ease-in-out cubic）
     // t: 0.0 → 1.0 (生のシーン進捗)
-    // return: 0.0 → 1.0 (スムージング済み)
+    // return: 0.0 → 1.0 (始点と終点で速度が 0 になり、境界で動きが滑らかになる)
     float easeTransition(float t) {
-      return t; // ← ここを変えてみてください
+      float x = clamp(t, 0.0, 1.0);
+      return x < 0.5
+        ? 4.0 * x * x * x
+        : 1.0 - pow(-2.0 * x + 2.0, 3.0) / 2.0;
     }
 
     void main() {
