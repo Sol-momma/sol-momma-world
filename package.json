@@ -1,7 +1,11 @@
 {
-  "name": "squealing-spiral",
+  "name": "tatooine",
   "type": "module",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sol-momma/tatooine.git"
+  },
   "engines": {
     "node": ">=22.12.0"
   },

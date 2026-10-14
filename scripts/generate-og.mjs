@@ -43,7 +43,7 @@ function buildMarkup(title, date) {
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between;">
           <div style="display: flex; font-size: 28px; font-weight: 600; color: rgba(255,255,255,0.9);">Sol-momma</div>
-          <div style="display: flex; font-size: 20px; color: rgba(255,255,255,0.4);">sol-momma-world</div>
+          <div style="display: flex; font-size: 20px; color: rgba(255,255,255,0.4);">tatooine</div>
         </div>
       </div>
     </div>
@@ -55,7 +55,9 @@ async function generatePng(title, date, fontData) {
   const svg = await satori(markup, {
     width: 1200,
     height: 630,
-    fonts: [{ name: "NotoSansJP", data: fontData, style: "normal", weight: 700 }],
+    fonts: [
+      { name: "NotoSansJP", data: fontData, style: "normal", weight: 700 },
+    ],
   });
   const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 1200 } });
   return resvg.render().asPng();
@@ -72,7 +74,11 @@ async function main() {
   console.log("  ✓ /og/index.png");
 
   // about
-  const aboutPng = await generatePng(`About | ${SITE_TITLE}`, undefined, fontData);
+  const aboutPng = await generatePng(
+    `About | ${SITE_TITLE}`,
+    undefined,
+    fontData,
+  );
   fs.writeFileSync(path.join(OUT_DIR, "about.png"), aboutPng);
   console.log("  ✓ /og/about.png");
 
