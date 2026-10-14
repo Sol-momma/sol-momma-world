@@ -9,6 +9,11 @@
     "dist"
   ],
   "compilerOptions": {
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    // desktop 配下の Preact TSX が JSX.IntrinsicElements を解決できるようにする。
+    // Why not: Astro 既定の jsx:preserve のままにしない理由は、グローバル JSX 名前空間がなく
+    // div / svg 等が implicit any になり、属性の誤りを型で検出できないため。
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   }
 }

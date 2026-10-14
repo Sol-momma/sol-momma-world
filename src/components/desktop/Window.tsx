@@ -10,7 +10,9 @@ interface WindowProps {
   children: ComponentChildren;
 }
 
-// レトロMac風のドラッグ可能な窓コンポーネント
+// レトロMac風のドラッグ可能な窓コンポーネント。
+// JSX の型は tsconfig の jsxImportSource: preact で解決する。
+// Why not: any / as any で黙らせない理由は、DOM 属性とイベント型を誤って書いても気づけなくなるため
 // Why not: react-draggableなどのライブラリではなく自前実装する理由は、依存を最小限にしシンプルな実装で済むため
 export const Window: FunctionComponent<WindowProps> = ({
   title,
