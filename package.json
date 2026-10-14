@@ -32,7 +32,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "budoux": "^0.9.3",
     "prettier": "^3.9.10",
-    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-astro": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "satori": "^0.47.1",
     "satori-html": "^0.3.2",
