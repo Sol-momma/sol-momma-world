@@ -14,15 +14,30 @@ const { size = 32, class: className, linkClass } = Astro.props;
 ---
 
 <div class={className}>
-  <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class={linkClass}>
+  <a
+    href={SOCIAL_LINKS.github}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={linkClass}
+  >
     <span class="sr-only">GitHub</span>
     <GitHub size={size} />
   </a>
-  <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class={linkClass}>
+  <a
+    href={SOCIAL_LINKS.linkedin}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={linkClass}
+  >
     <span class="sr-only">LinkedIn</span>
     <LinkedIn size={size} />
   </a>
-  <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class={linkClass}>
+  <a
+    href={SOCIAL_LINKS.twitter}
+    target="_blank"
+    rel="noopener noreferrer"
+    class={linkClass}
+  >
     <span class="sr-only">X (Twitter)</span>
     <Twitter size={size} />
   </a>

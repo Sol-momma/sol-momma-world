@@ -11,7 +11,12 @@ import ThemeToggle from "./ThemeToggle.astro";
         <HeaderLink href="/">Home</HeaderLink>
         <HeaderLink href="/about">About</HeaderLink>
       </div>
-      <a href="/Resume_SoMomma.pdf" download class="resume-btn" aria-label="Resume">
+      <a
+        href="/Resume_SoMomma.pdf"
+        download
+        class="resume-btn"
+        aria-label="Resume"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="12"
@@ -44,7 +49,9 @@ import ThemeToggle from "./ThemeToggle.astro";
     border: 1px solid var(--glass-border);
     border-radius: 9999px;
     padding: 4px;
-    box-shadow: 0 2px 16px var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
+    box-shadow:
+      0 2px 16px var(--glass-shadow),
+      inset 0 1px 0 var(--glass-highlight);
   }
 
   @media (max-width: 480px) {

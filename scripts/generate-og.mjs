@@ -55,7 +55,9 @@ async function generatePng(title, date, fontData) {
   const svg = await satori(markup, {
     width: 1200,
     height: 630,
-    fonts: [{ name: "NotoSansJP", data: fontData, style: "normal", weight: 700 }],
+    fonts: [
+      { name: "NotoSansJP", data: fontData, style: "normal", weight: 700 },
+    ],
   });
   const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 1200 } });
   return resvg.render().asPng();
@@ -72,7 +74,11 @@ async function main() {
   console.log("  ✓ /og/index.png");
 
   // about
-  const aboutPng = await generatePng(`About | ${SITE_TITLE}`, undefined, fontData);
+  const aboutPng = await generatePng(
+    `About | ${SITE_TITLE}`,
+    undefined,
+    fontData,
+  );
   fs.writeFileSync(path.join(OUT_DIR, "about.png"), aboutPng);
   console.log("  ✓ /og/about.png");
 

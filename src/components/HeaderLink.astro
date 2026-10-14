@@ -11,11 +11,7 @@ const isActive = href === pathname || href === "/" + (subpath?.[0] || "");
 
 <a
   href={href}
-  class:list={[
-    "nav-link no-underline",
-    { active: isActive },
-    className,
-  ]}
+  class:list={["nav-link no-underline", { active: isActive }, className]}
   {...props}
 >
   <slot />
