@@ -43,7 +43,7 @@ function buildMarkup(title, date) {
         </div>
         <div style="display: flex; align-items: center; justify-content: space-between;">
           <div style="display: flex; font-size: 28px; font-weight: 600; color: rgba(255,255,255,0.9);">Sol-momma</div>
-          <div style="display: flex; font-size: 20px; color: rgba(255,255,255,0.4);">sol-momma-world</div>
+          <div style="display: flex; font-size: 20px; color: rgba(255,255,255,0.4);">tatooine</div>
         </div>
       </div>
     </div>
