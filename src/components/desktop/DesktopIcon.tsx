@@ -5,7 +5,9 @@ interface DesktopIconProps {
   onClick: () => void;
 }
 
-// デスクトップに表示するアイコン
+// デスクトップに表示するアイコン。
+// JSX の型は tsconfig の jsxImportSource: preact で解決する。
+// Why not: any / as any で黙らせない理由は、button / svg の属性誤りを型で検出したいため
 // Why not: FontAwesomeなど外部アイコンライブラリではなくCSS/SVGで自作する理由は、ライセンスとバンドルサイズの最小化
 export const DesktopIcon: FunctionComponent<DesktopIconProps> = ({
   label,

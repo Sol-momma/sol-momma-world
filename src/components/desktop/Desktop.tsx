@@ -8,7 +8,9 @@ interface DesktopProps {
   works: WorkItem[];
 }
 
-// レトロMac風デスクトップのメインコンポーネント
+// レトロMac風デスクトップのメインコンポーネント。
+// JSX の型は tsconfig の jsxImportSource: preact で解決する。
+// Why not: any / as any で黙らせない理由は、div や子コンポーネントの props 誤りを型で検出したいため
 // Why not: Zustandではなくローカルstateを使う理由は、単一ウィンドウの開閉状態のみでグローバル状態管理が不要なため
 export const Desktop: FunctionComponent<DesktopProps> = ({ works }) => {
   const [isWorksOpen, setIsWorksOpen] = useState(false);

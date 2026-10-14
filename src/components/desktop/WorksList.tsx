@@ -10,7 +10,9 @@ interface WorksListProps {
   works: WorkItem[];
 }
 
-// Works窓の中に表示する作品リスト
+// Works窓の中に表示する作品リスト。
+// JSX の型は tsconfig の jsxImportSource: preact で解決する。
+// Why not: any / as any で黙らせない理由は、a / 見出しなどの属性誤りを型で検出したいため
 // Why not: カード風の複雑なUIではなくリスト表示にする理由は、レトロMacのシンプルな美学に合わせるため
 export const WorksList: FunctionComponent<WorksListProps> = ({ works }) => {
   return (
