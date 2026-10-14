@@ -35,13 +35,11 @@ const name = "Sol-momma";
         </div>
 
         <h1 class="name-wave animate-fade-in-up mb-2 delay-2 max-sm:text-2xl">
-          {
-            name.split("").map((char, i) => (
-              <span class="wave-char" style={`--i: ${i}`}>
-                {char}
-              </span>
-            ))
-          }
+          {name.split("").map((char, i) => (
+            <span class="wave-char" style={`--i: ${i}`}>
+              {char}
+            </span>
+          ))}
         </h1>
         <p
           class="animate-fade-in-up text-gray text-base tracking-wide delay-3"

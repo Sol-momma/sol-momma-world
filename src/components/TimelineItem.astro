@@ -15,18 +15,14 @@ const { name, role, period, side } = Astro.props;
     side === "left" ? "slide-left" : "slide-right",
   ]}
 >
-  <div
-    class="timeline-dot border-gray-dark bg-cream absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px]"
-  >
-  </div>
+  <div class="timeline-dot border-gray-dark bg-cream absolute left-1/2 z-10 h-4 w-4 -translate-x-1/2 rounded-full border-[3px]"></div>
 
   <div
     class:list={[
       "timeline-connector bg-gray-dark absolute top-1/2 h-[2px] -translate-y-1/2",
       side === "left" ? "is-left" : "is-right",
     ]}
-  >
-  </div>
+  ></div>
 
   <div
     class:list={[
