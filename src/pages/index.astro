@@ -55,7 +55,9 @@ const name = "Sol-momma";
           class="animate-fade-in-up text-gray text-base tracking-wide delay-3"
           style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)"
         >
-          <span id="typewriter" class="typewriter">Software Engineer</span>
+          <span id="typewriter" class="typewriter">
+            Software Engineer
+          </span>
         </p>
 
         <SocialLinks
@@ -73,24 +75,28 @@ const name = "Sol-momma";
         <p>{SITE_DESCRIPTION}</p>
         <h2>Projects</h2>
         <ul>
-          {
-            works.map((work) => (
-              <li>
-                {work.data.url ? (
-                  <a href={work.data.url}>{work.data.title}</a>
-                ) : (
-                  <span>{work.data.title}</span>
-                )}
-                : {work.data.description}
-              </li>
-            ))
-          }
+          {works.map((work) => (
+            <li>
+              {work.data.url ? (
+                <a href={work.data.url}>{work.data.title}</a>
+              ) : (
+                <span>{work.data.title}</span>
+              )}
+              : {work.data.description}
+            </li>
+          ))}
         </ul>
         <h2>Links</h2>
         <ul>
-          <li><a href={RESUME_PATH}>Resume (PDF)</a></li>
-          <li><a href={SOCIAL_LINKS.github}>GitHub</a></li>
-          <li><a href={SOCIAL_LINKS.linkedin}>LinkedIn</a></li>
+          <li>
+            <a href={RESUME_PATH}>Resume (PDF)</a>
+          </li>
+          <li>
+            <a href={SOCIAL_LINKS.github}>GitHub</a>
+          </li>
+          <li>
+            <a href={SOCIAL_LINKS.linkedin}>LinkedIn</a>
+          </li>
         </ul>
       </section>
 

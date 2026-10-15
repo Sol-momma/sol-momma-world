@@ -39,20 +39,20 @@ const works: WorkItem[] = worksEntries
       <h1>Projects</h1>
       <p>{SITE_DESCRIPTION}</p>
       <ul>
-        {
-          works.map((work) => (
-            <li>
-              {work.url ? (
-                <a href={work.url}>{work.title}</a>
-              ) : (
-                <span>{work.title}</span>
-              )}
-              : {work.description}
-            </li>
-          ))
-        }
+        {works.map((work) => (
+          <li>
+            {work.url ? (
+              <a href={work.url}>{work.title}</a>
+            ) : (
+              <span>{work.title}</span>
+            )}
+            : {work.description}
+          </li>
+        ))}
       </ul>
-      <p><a href={RESUME_PATH}>Resume (PDF)</a></p>
+      <p>
+        <a href={RESUME_PATH}>Resume (PDF)</a>
+      </p>
     </section>
   </body>
 </html>
