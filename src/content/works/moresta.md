@@ -1,5 +1,6 @@
 ---
 title: "moresta"
-description: "Sparkly face-hiding sticker maker app (concept and prototype)."
+description: "思い出を記録するライフログアプリ"
+url: "https://github.com/Sol-momma"
 order: 2
 ---
