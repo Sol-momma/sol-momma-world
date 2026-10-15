@@ -1,6 +1,5 @@
 ---
 title: "Snapsol"
-description: "写真共有SNSアプリケーション"
-url: "https://github.com/Sol-momma"
+description: "macOS screenshot app: capture, annotate, OCR, and share instantly (Swift, not released yet)."
 order: 1
 ---
