@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { Desktop } from "../components/desktop/Desktop";
 import type { WorkItem } from "../components/desktop/WorksList";
 import "../styles/global.css";
-import { SITE_DESCRIPTION } from "../consts";
+import { RESUME_PATH, SITE_DESCRIPTION, SOCIAL_LINKS } from "../consts";
 
 // 作品データを取得してorderでソート
 const worksEntries = await getCollection("works");
@@ -31,5 +31,25 @@ const works: WorkItem[] = worksEntries
       Why not: client:idleではなくclient:loadを使う理由は、デスクトップUIはページの中核機能なので即座にインタラクティブにすべきため
     -->
     <Desktop client:load works={works} />
+    <!--
+      クローラーや JS なしの読者向けに、自己紹介とリンクを静的 HTML で出す。
+      作品一覧は公開準備ができるまで出さない（壮宇さんの判断）。
+      Why not: 見た目を変えないため sr-only で視覚的には隠し、スクリーンリーダーとクローラーには読ませる
+    -->
+    <section class="sr-only" aria-label="About">
+      <h1>About</h1>
+      <p>{SITE_DESCRIPTION}</p>
+      <ul>
+        <li>
+          <a href={RESUME_PATH}>Resume (PDF)</a>
+        </li>
+        <li>
+          <a href={SOCIAL_LINKS.github}>GitHub</a>
+        </li>
+        <li>
+          <a href={SOCIAL_LINKS.linkedin}>LinkedIn</a>
+        </li>
+      </ul>
+    </section>
   </body>
 </html>
