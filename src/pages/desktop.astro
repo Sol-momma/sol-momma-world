@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import { Desktop } from "../components/desktop/Desktop";
 import type { WorkItem } from "../components/desktop/WorksList";
 import "../styles/global.css";
-import { RESUME_PATH, SITE_DESCRIPTION } from "../consts";
+import { SITE_DESCRIPTION } from "../consts";
 
 // 作品データを取得してorderでソート
 const worksEntries = await getCollection("works");
@@ -31,28 +31,5 @@ const works: WorkItem[] = worksEntries
       Why not: client:idleではなくclient:loadを使う理由は、デスクトップUIはページの中核機能なので即座にインタラクティブにすべきため
     -->
     <Desktop client:load works={works} />
-    <!--
-      作品は island の props にしかないため、クローラーと JS なしの読者向けに静的な一覧も出す。
-      Why not: noscript だと JS が動くクローラーには見えないため、sr-only で常に出力する
-    -->
-    <section class="sr-only" aria-label="Projects">
-      <h1>Projects</h1>
-      <p>{SITE_DESCRIPTION}</p>
-      <ul>
-        {works.map((work) => (
-          <li>
-            {work.url ? (
-              <a href={work.url}>{work.title}</a>
-            ) : (
-              <span>{work.title}</span>
-            )}
-            : {work.description}
-          </li>
-        ))}
-      </ul>
-      <p>
-        <a href={RESUME_PATH}>Resume (PDF)</a>
-      </p>
-    </section>
   </body>
 </html>
