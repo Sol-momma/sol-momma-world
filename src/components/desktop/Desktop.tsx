@@ -1,44 +1,15 @@
 import type { FunctionComponent } from "preact";
-import { useState } from "preact/hooks";
-import { DesktopIcon } from "./DesktopIcon";
-import { Window } from "./Window";
-import { WorksList, type WorkItem } from "./WorksList";
-
-interface DesktopProps {
-  works: WorkItem[];
-}
 
 // レトロMac風デスクトップのメインコンポーネント。
 // JSX の型は tsconfig の jsxImportSource: preact で解決する。
-// Why not: any / as any で黙らせない理由は、div や子コンポーネントの props 誤りを型で検出したいため
-// Why not: Zustandではなくローカルstateを使う理由は、単一ウィンドウの開閉状態のみでグローバル状態管理が不要なため
-export const Desktop: FunctionComponent<DesktopProps> = ({ works }) => {
-  const [isWorksOpen, setIsWorksOpen] = useState(false);
-  const [worksPosition, setWorksPosition] = useState({ x: 100, y: 80 });
-
-  const openWorks = () => setIsWorksOpen(true);
-  const closeWorks = () => setIsWorksOpen(false);
-  const handleMove = (x: number, y: number) => setWorksPosition({ x, y });
-
+// Works 窓（作品一覧）は公開準備ができるまで出さない（壮宇さんの判断）ため、
+// アイコン・窓・作品データをバンドルに含めないよう取り除いている。
+// Why not: CSS で隠すだけにしない理由は、HTML と JS に作品データが残ってしまうため
+export const Desktop: FunctionComponent = () => {
   return (
     <div class="desktop-container">
-      {/* デスクトップアイコンエリア */}
-      <div class="desktop-icons">
-        <DesktopIcon label="Works" onClick={openWorks} />
-      </div>
-
-      {/* Works窓 */}
-      {isWorksOpen && (
-        <Window
-          title="Works"
-          onClose={closeWorks}
-          initialX={worksPosition.x}
-          initialY={worksPosition.y}
-          onMove={handleMove}
-        >
-          <WorksList works={works} />
-        </Window>
-      )}
+      {/* デスクトップアイコンエリア（今は空。今後アイコンを足すときの置き場） */}
+      <div class="desktop-icons"></div>
     </div>
   );
 };
