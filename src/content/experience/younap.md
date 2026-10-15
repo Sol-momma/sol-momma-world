@@ -1,6 +1,6 @@
 ---
 name: "Younap"
 role: "Software Engineer Intern"
-period: "2024/06 - present"
+period: "Jun 2024 – Present"
 order: 3
 ---

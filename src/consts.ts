@@ -1,7 +1,7 @@
 export const SITE_TITLE = "Sol-momma";
 // 応募・クローラー向けに英語で職種と所属が伝わる説明にする
 export const SITE_DESCRIPTION =
-  "So Momma — Software Engineer Intern at Younap and B.S. Informatics (IBPI) student at Yuan Ze University, graduating June 2027. Open to remote software engineering roles in English.";
+  "So Momma — Software Engineer Intern at Younap (Jun 2024 – Present) and B.S. Informatics (IBPI) student at Yuan Ze University, graduating June 2027. Open to remote software engineering roles in English.";
 
 // 履歴書 PDF のパス（ヘッダーと静的な自己紹介で共通に使う）
 export const RESUME_PATH = "/Resume_SoMomma.pdf";
