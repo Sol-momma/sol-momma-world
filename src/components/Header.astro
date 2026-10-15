@@ -1,6 +1,7 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import ThemeToggle from "./ThemeToggle.astro";
+import { RESUME_PATH } from "../consts";
 ---
 
 <header class="animate-fade-in-down px-4 pt-4 pb-4 sm:px-6">
@@ -10,9 +11,10 @@ import ThemeToggle from "./ThemeToggle.astro";
       <div class="nav-bar">
         <HeaderLink href="/">Home</HeaderLink>
         <HeaderLink href="/about">About</HeaderLink>
+        <HeaderLink href="/desktop">Projects</HeaderLink>
       </div>
       <a
-        href="/Resume_SoMomma.pdf"
+        href={RESUME_PATH}
         download
         class="resume-btn"
         aria-label="Resume"
