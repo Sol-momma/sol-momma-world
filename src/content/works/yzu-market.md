@@ -1,6 +1,6 @@
 ---
 title: "YZU Market"
-description: "大学生向けフリーマーケットプラットフォーム"
-url: "https://github.com/Sol-momma"
+description: "Small campus flea market web app for Yuan Ze University students."
+url: "https://yzu-market.sol0608sol.workers.dev/"
 order: 3
 ---
