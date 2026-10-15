@@ -3,6 +3,13 @@ import Header from "../components/Header.astro";
 import KamishibaiBackground from "../components/KamishibaiBackground.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import Base from "../layouts/Base.astro";
+import { getCollection } from "astro:content";
+import { RESUME_PATH, SITE_DESCRIPTION, SOCIAL_LINKS } from "../consts";
+
+// 作品を order 順に並べ、ビルド時に静的 HTML として出す
+const works = (await getCollection("works")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 
 const name = "Sol-momma";
 ---
@@ -34,9 +41,12 @@ const name = "Sol-momma";
           </div>
         </div>
 
-        <h1 class="name-wave animate-fade-in-up mb-2 delay-2 max-sm:text-2xl">
+        <h1
+          class="name-wave animate-fade-in-up mb-2 delay-2 max-sm:text-2xl"
+          aria-label="So Momma"
+        >
           {name.split("").map((char, i) => (
-            <span class="wave-char" style={`--i: ${i}`}>
+            <span class="wave-char" style={`--i: ${i}`} aria-hidden="true">
               {char}
             </span>
           ))}
@@ -45,7 +55,7 @@ const name = "Sol-momma";
           class="animate-fade-in-up text-gray text-base tracking-wide delay-3"
           style="margin-bottom: clamp(0.5rem, 2vh, 2.5rem)"
         >
-          <span id="typewriter" class="typewriter"></span>
+          <span id="typewriter" class="typewriter">Software Engineer</span>
         </p>
 
         <SocialLinks
@@ -53,6 +63,36 @@ const name = "Sol-momma";
           linkClass="social-icon text-gray"
         />
       </main>
+
+      <!--
+        クローラーや JS なしの読者向けに、自己紹介と作品を静的 HTML で出す。
+        Why not: 見た目を変えないため sr-only で視覚的には隠し、スクリーンリーダーとクローラーには読ませる
+      -->
+      <section id="projects" class="sr-only" aria-label="About and projects">
+        <h2>About</h2>
+        <p>{SITE_DESCRIPTION}</p>
+        <h2>Projects</h2>
+        <ul>
+          {
+            works.map((work) => (
+              <li>
+                {work.data.url ? (
+                  <a href={work.data.url}>{work.data.title}</a>
+                ) : (
+                  <span>{work.data.title}</span>
+                )}
+                : {work.data.description}
+              </li>
+            ))
+          }
+        </ul>
+        <h2>Links</h2>
+        <ul>
+          <li><a href={RESUME_PATH}>Resume (PDF)</a></li>
+          <li><a href={SOCIAL_LINKS.github}>GitHub</a></li>
+          <li><a href={SOCIAL_LINKS.linkedin}>LinkedIn</a></li>
+        </ul>
+      </section>
 
       <div class="scroll-hint">
         <span>scroll</span>
