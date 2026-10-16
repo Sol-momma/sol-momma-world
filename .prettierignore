@@ -17,3 +17,6 @@ public/**/*.png
 public/**/*.webp
 public/**/*.pdf
 public/**/*.svg
+
+# astromech から同期するファイル（正本と同じ内容に保つため整形しない）
+.claude
